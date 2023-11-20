@@ -1,5 +1,7 @@
 use clap::{Arg, ArgAction, Command};
 
+mod webserver;
+
 #[tokio::main]
 async fn main() {
     let commands = Command::new("Triceratops Server")
@@ -13,6 +15,7 @@ async fn main() {
     match commands.subcommand() {
         Some(("start", _)) => {
             println!("Starting the web-server");
+            webserver::start().await;
         }
         _ => {
             unreachable!("This should never happen")
