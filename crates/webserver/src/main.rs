@@ -1,4 +1,21 @@
+use clap::{Arg, ArgAction, Command};
+
 #[tokio::main]
 async fn main() {
-    println!("Hello, world!");
+    let commands = Command::new("Triceratops Server")
+        .version("0.0.1")
+        .about("Triceratops Server")
+        .arg_required_else_help(true)
+        .subcommand_required(true)
+        .subcommand(Command::new("start").about("Start the web-server"))
+        .get_matches();
+
+    match commands.subcommand() {
+        Some(("start", _)) => {
+            println!("Starting the web-server");
+        }
+        _ => {
+            unreachable!("This should never happen")
+        }
+    }
 }
