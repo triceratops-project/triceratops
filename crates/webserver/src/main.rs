@@ -1,7 +1,7 @@
 use clap::{Arg, ArgAction, Command};
 
 mod routes;
-mod webserver;
+mod web_server;
 
 #[tokio::main]
 async fn main() {
@@ -16,7 +16,7 @@ async fn main() {
     match commands.subcommand() {
         Some(("start", _)) => {
             println!("Starting the web-server");
-            webserver::start().await;
+            web_server::start().await;
         }
         _ => {
             unreachable!("This should never happen")
