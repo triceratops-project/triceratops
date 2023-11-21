@@ -1,7 +1,7 @@
-import { Props } from '@/app/page.types'
+import { Props } from '@/page.types'
 import type { Metadata } from 'next'
 
-import './global.css'
+import '@/app/global.css'
 
 export const metadata: Metadata = {
 	title: 'Triceratops',

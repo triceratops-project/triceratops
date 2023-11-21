@@ -1,0 +1,16 @@
+{
+    "Index": {
+        "title": "boobs",
+        "description": "Index"
+    },
+    "Login": {
+        "login-header": "Login",
+        "login-subheader": "Login to your account",
+        "login-button": "Login",
+        "login-username": "Username",
+        "login-password": "Password",
+        "login-remember": "Remember me",
+        "login-forgot": "Forgot password?"
+
+    }
+}

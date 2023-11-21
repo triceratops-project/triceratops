@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import LoginContainer from '@components/Login/LoginContainer'
 import Triceratops from '@/components/Login/Triceratops'
 
 export default function LoginPage({ }) {
+
 	return (
 		<>
 			<div className="hidden xl:block">
