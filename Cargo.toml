@@ -1,4 +1,4 @@
 [workspace]
 resolver = "2"
-members = ["crates/webserver", "crates/daemon"]
+members = ["crates/webserver", "crates/webserver/migration", "crates/daemon"]
 default-members = ["crates/webserver", "crates/daemon"]

@@ -1,5 +1,6 @@
 use clap::{Arg, ArgAction, Command};
 
+mod routes;
 mod webserver;
 
 #[tokio::main]
