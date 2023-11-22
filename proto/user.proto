@@ -1,1 +1,29 @@
 syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "triceratops.proto";
+
+package triceratops.user;
+
+service ServerService {
+    rpc ServerCommand(ServerCommandRequest) returns (google.protobuf.Empty);
+    rpc ServerPowerAction(ServerPowerActionRequest) returns (ServerPowerActionResponse);
+}
+
+// Power Actions
+// The enum works the LSP is just being a little bich
+message ServerPowerActionRequest {
+    string server_id = 1;
+    triceratops.PowerAction action = 2;
+}
+
+message ServerPowerActionResponse {
+    string server_id = 1;
+    bool success = 2;
+}
+
+// Server Commands
+message ServerCommandRequest {
+    string server_id = 1;
+    string command = 2;
+}

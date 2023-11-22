@@ -1,1 +1,10 @@
 syntax = "proto3";
+
+package triceratops;
+
+enum PowerAction {
+    POWER_START = 0;
+    POWER_STOP = 1;
+    POWER_RESTART = 2;
+    POWER_KILL = 3;
+}

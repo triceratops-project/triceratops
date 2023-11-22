@@ -9,18 +9,18 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(User::Table)
+                    .table(Users::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(User::Id).string().not_null().primary_key())
-                    .col(ColumnDef::new(User::ExternalId).char_len(255))
-                    .col(ColumnDef::new(User::Username).string().not_null())
-                    .col(ColumnDef::new(User::Email).string().not_null())
-                    .col(ColumnDef::new(User::Password).char_len(512))
-                    .col(ColumnDef::new(User::FirstName).string())
-                    .col(ColumnDef::new(User::LastName).string())
-                    .col(ColumnDef::new(User::LastLoginAt).date_time())
+                    .col(ColumnDef::new(Users::Id).char_len(24).not_null().primary_key())
+                    .col(ColumnDef::new(Users::ExternalId).char_len(255))
+                    .col(ColumnDef::new(Users::Username).string().not_null())
+                    .col(ColumnDef::new(Users::Email).string().not_null())
+                    .col(ColumnDef::new(Users::Password).char_len(97))
+                    .col(ColumnDef::new(Users::FirstName).string())
+                    .col(ColumnDef::new(Users::LastName).string())
+                    .col(ColumnDef::new(Users::LastLoginAt).date_time())
                     .col(
-                        ColumnDef::new(User::CreatedAt)
+                        ColumnDef::new(Users::CreatedAt)
                             .date_time()
                             .not_null()
                             .default(Expr::current_timestamp()),
@@ -32,13 +32,13 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(User::Table).to_owned())
+            .drop_table(Table::drop().table(Users::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-enum User {
+pub enum Users {
     Table,
     Id,
     ExternalId,
