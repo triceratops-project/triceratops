@@ -8,6 +8,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: '**.com',
             },
+            { // for testing images
+                protocol: 'https',
+                hostname: '**.it',
+            },
         ],
     },
 }
