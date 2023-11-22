@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+enum PowerAction {
+    POWER_START = 0;
+    POWER_STOP = 1;
+    POWER_RESTART = 2;
+    POWER_KILL = 3;
+}
+
+message ServerAllocation {
+    string id = 1;
+    string ip = 2;
+    int32 port = 3;
+}
+
+message ServerAllocationList {
+    repeated ServerAllocation allocations = 1;
+}
+
+message ServerPermission {
+    string permission = 1;
+}
+
+message ServerPermissionList {
+    repeated ServerPermission permissions = 1;
+}
+
+message ServerSubUser {
+    string id = 1;
+    string email = 3;
+    ServerPermissionList permissions = 4;
+}
+
+message ServerSubUserList {
+    repeated ServerSubUser sub_users = 1;
+}
+
+message ServerDetails {
+    string id = 1;
+    string owner = 2;
+    string node = 3;
+    string startup_command = 4;
+    ServerAllocationList allocations = 5;
+    ServerSubUserList sub_users = 6;
+}
+
+message ServerPowerAction {
+    string server_id = 1;
+    enum action = 2;
+}
+
+message ServerSendCommand {
+    string server_id = 1;
+    string command = 2;
+}
