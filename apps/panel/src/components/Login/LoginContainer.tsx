@@ -31,7 +31,7 @@ export default function LoginContainer({ }) {
                             <TextInput label={t('login-username')} placeholder={t('login-username')} className="h-10 w-full"></TextInput>
                             <TextInput label={t('login-password')} placeholder={t('login-password')} className="h-10 w-full mt-2"></TextInput>
                             <Submit value={t('login-button') + " 🥸"} className="font-bold h-10 mt-4 w-full"></Submit>
-                            <p className='text-start pl-2 text-neutral-600'>or, <a href='https://men.com' className='text-pink-400 hover:text-pink-300'>register an account.</a></p>
+                            <p className='text-start pl-2 text-neutral-600'>or, <a href='/register' className='text-pink-400 hover:text-pink-300'>register an account.</a></p>
                     </div>
                     <p className='hidden'>kill youself, now!!!?</p>
                 </div>
