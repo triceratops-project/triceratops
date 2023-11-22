@@ -1,12 +1,19 @@
+import { NextRequest, NextResponse } from 'next/server'
 import createMiddleware from 'next-intl/middleware';
-import locales from '@/i18n'
 
-export default createMiddleware({
+const middleware = createMiddleware({
   locales: ['en'],
-
   defaultLocale: 'en'
 });
 
+export default function onRequest(req: NextRequest) {
+  if (req.nextUrl.pathname.startsWith('/_next') || req.nextUrl.pathname.startsWith('/public')) {
+    return NextResponse.next();
+  }
+
+  return middleware(req);
+}
+
 export const config = {
-  matcher: ['/', '/(en)/:path*']
+  matcher: ['/:locale/:path*']
 };
