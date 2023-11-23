@@ -1,16 +1,17 @@
 'use client'
 import * as React from 'react';
+import { TextInputProps } from '@components/Elements/Forms/TextInput';
 
-export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface PasswordInputProps extends TextInputProps {
     label: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, placeholder, value, className, ...props }) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ label, placeholder, value, className, ...props }) => {
     return (
         <div>
             <input
                 className={`appearance-none rounded-md px-3 bg-neutral-800 placeholder:text-neutral-600 ${className}`}
-                type="text"
+                type="password"
                 placeholder={placeholder}
                 {...props}
             />
@@ -18,4 +19,4 @@ const TextInput: React.FC<TextInputProps> = ({ label, placeholder, value, classN
     );
 };
 
-export default TextInput;
+export default PasswordInput;
