@@ -3,7 +3,7 @@ fn main() {
         .compile(
             &[
                 "../../proto/triceratops.proto",
-                "../../proto/server.proto",
+                "../../proto/admin.proto",
                 "../../proto/user.proto",
             ],
             &["../../proto"],
