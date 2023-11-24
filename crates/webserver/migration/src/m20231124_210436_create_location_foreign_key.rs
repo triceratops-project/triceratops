@@ -30,15 +30,12 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Post::Table).to_owned())
+            .alter_table(
+                Table::alter()
+                    .table(Nodes::Table)
+                    .drop_foreign_key(Alias::new("fk_nodes_location_id"))
+                    .to_owned(),
+            )
             .await
     }
-}
-
-#[derive(DeriveIden)]
-enum Post {
-    Table,
-    Id,
-    Title,
-    Text,
 }

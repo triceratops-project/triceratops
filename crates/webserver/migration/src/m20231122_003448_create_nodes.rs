@@ -1,7 +1,5 @@
 use sea_orm_migration::prelude::*;
 
-use crate::m20231122_135619_create_locations::Locations;
-
 #[derive(DeriveMigrationName)]
 pub struct Migration;
 
