@@ -1,5 +1,7 @@
 use sea_orm_migration::prelude::*;
 
+use crate::{m20231120_235338_create_users::Users, m20231122_003448_create_nodes::Nodes};
+
 #[derive(DeriveMigrationName)]
 pub struct Migration;
 
@@ -11,9 +13,27 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Servers::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(Servers::Id).char_len(24).not_null().primary_key())
-                    .col(ColumnDef::new(Servers::Slug).char_len(8).not_null())
-                    .col(ColumnDef::new(Servers::Text).string().not_null())
+                    .col(
+                        ColumnDef::new(Servers::Id)
+                            .char_len(24)
+                            .not_null()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Servers::Name).string().not_null())
+                    .col(ColumnDef::new(Servers::NodeId).char_len(24).not_null())
+                    .col(ColumnDef::new(Servers::OwnerId).char_len(24).not_null())
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk_servers_node_id")
+                            .from(Servers::Table, Servers::NodeId)
+                            .to(Nodes::Table, Nodes::Id),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk_servers_owner_id")
+                            .from(Servers::Table, Servers::OwnerId)
+                            .to(Users::Table, Users::Id),
+                    )
                     .to_owned(),
             )
             .await
@@ -30,6 +50,7 @@ impl MigrationTrait for Migration {
 pub enum Servers {
     Table,
     Id,
-    Slug,
-    Text,
+    Name,
+    NodeId,
+    OwnerId,
 }
