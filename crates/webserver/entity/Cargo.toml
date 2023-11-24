@@ -1,0 +1,14 @@
+[package]
+name = "triceratops-server-entity"
+version = "0.1.0"
+edition = "2021"
+license = "UNLICENSED"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+cuid2 = "0.1"
+sea-orm = "0.12"
+serde = { version = "1.0", features = ["derive"] }
+url = "2.5.0"
