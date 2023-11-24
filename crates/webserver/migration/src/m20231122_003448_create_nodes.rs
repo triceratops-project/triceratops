@@ -21,7 +21,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Nodes::Name).string().not_null())
                     .col(ColumnDef::new(Nodes::Description).string())
-                    .col(ColumnDef::new(Nodes::LocationId).string().not_null())
+                    .col(ColumnDef::new(Nodes::LocationId).char_len(8).not_null())
                     .col(ColumnDef::new(Nodes::ConnectionAddress).string().not_null())
                     .col(ColumnDef::new(Nodes::Secure).boolean().not_null())
                     .col(ColumnDef::new(Nodes::Token).string().not_null())
