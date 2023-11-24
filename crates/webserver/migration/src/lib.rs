@@ -6,6 +6,7 @@ mod m20231122_004821_create_servers;
 mod m20231122_135619_create_locations;
 mod m20231124_171543_create_nests;
 mod m20231124_171550_create_eggs;
+mod m20231124_210436_create_location_foreign_key;
 
 pub struct Migrator;
 
@@ -19,6 +20,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20231122_135619_create_locations::Migration),
             Box::new(m20231124_171543_create_nests::Migration),
             Box::new(m20231124_171550_create_eggs::Migration),
+            Box::new(m20231124_210436_create_location_foreign_key::Migration),
         ]
     }
 }

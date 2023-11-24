@@ -1,4 +1,6 @@
 {
     "rust-analyzer.showUnlinkedFileNotification": false,
-    "cSpell.words": []
+    "cSpell.words": [
+        "fkey"
+    ]
 }
