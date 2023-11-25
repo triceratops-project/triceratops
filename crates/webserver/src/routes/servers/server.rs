@@ -1,3 +1,4 @@
+use crate::state::AppState;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
@@ -7,8 +8,6 @@ use axum::{
 use sea_orm::EntityTrait;
 use serde_json::json;
 use triceratops_server_entity::servers as Servers;
-
-use crate::state::AppState;
 
 pub async fn handler(Path(server_id): Path<String>, State(state): State<AppState>) -> Response {
     let server = Servers::Entity::find_by_id(&server_id)
