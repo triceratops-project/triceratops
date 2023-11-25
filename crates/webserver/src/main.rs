@@ -2,6 +2,7 @@ use clap::{Arg, ArgAction, Command};
 
 mod routes;
 mod web_server;
+mod state;
 
 #[tokio::main]
 async fn main() {
