@@ -10,11 +10,10 @@ edition = "2021"
 triceratops-server-migration = { path = "./migration" }
 triceratops-server-entity = { path = "./entity" }
 
-
 axum = { version = "0.6.20", features = ["ws", "http2", "headers"] }
 axum-extra = "0.8.0"
 clap = "4.4.8"
-redis = "0.23.3"
+redis = { version = "0.23.3", features = ["tokio-comp"] }
 sea-orm = { version = "0.12.6", features = [
     "sqlx-postgres",
     "runtime-tokio-rustls",

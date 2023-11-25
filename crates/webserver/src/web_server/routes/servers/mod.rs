@@ -1,4 +1,4 @@
-use crate::state::AppState;
+use crate::web_server::state::AppState;
 use axum::{routing::get, Router};
 
 pub mod server;
