@@ -20,7 +20,7 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Sessions::UserId).char_len(24).not_null())
-                    .col(ColumnDef::new(Sessions::IpAddress).string().not_null())
+                    .col(ColumnDef::new(Sessions::IpAddress).inet().not_null())
                     .col(ColumnDef::new(Sessions::ExpiresAt).timestamp_with_time_zone())
                     .col(
                         ColumnDef::new(Sessions::CreatedAt)
