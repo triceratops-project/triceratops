@@ -21,6 +21,12 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Sessions::UserId).char_len(24).not_null())
                     .col(ColumnDef::new(Sessions::IpAddress).string().not_null())
+                    .col(ColumnDef::new(Sessions::ExpiresAt).timestamp_with_time_zone())
+                    .col(
+                        ColumnDef::new(Sessions::CreatedAt)
+                            .timestamp_with_time_zone()
+                            .not_null(),
+                    )
                     .foreign_key(
                         ForeignKey::create()
                             .name("fk_sessions_user_id")
@@ -47,4 +53,6 @@ enum Sessions {
     Id,
     UserId,
     IpAddress,
+    ExpiresAt,
+    CreatedAt,
 }

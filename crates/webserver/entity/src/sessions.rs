@@ -11,6 +11,8 @@ pub struct Model {
     pub id: String,
     pub user_id: String,
     pub ip_address: String,
+    pub expires_at: Option<DateTimeUtc>,
+    pub created_at: DateTimeUtc,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
