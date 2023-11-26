@@ -4,11 +4,10 @@ use axum::{
     Json,
 };
 use serde::{Deserialize, Serialize};
-use zeroize::ZeroizeOnDrop;
 
 use crate::web_server::state::AppState;
 
-#[derive(Deserialize, Serialize, ZeroizeOnDrop)]
+#[derive(Deserialize, Serialize)]
 pub struct RequestBody {
     username: String,
     password: String,

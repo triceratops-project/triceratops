@@ -2,8 +2,9 @@
     "rust-analyzer.showUnlinkedFileNotification": false,
     "cSpell.words": [
         "axum",
+        "chrono",
         "fkey",
         "mobc",
-        "chrono"
+        "serde"
     ]
 }

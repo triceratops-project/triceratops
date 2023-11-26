@@ -41,3 +41,7 @@ rand = { version = "0.8.5", features = ["serde"] }
 rand_core = { version = "0.6.4", features = ["std", "serde"] }
 argon2 = { version = "0.5.2", features = ["std", "zeroize"] }
 chrono = { version = "0.4.31", features = ["serde"] }
+sha2 = "0.10.8"
+hex = { version = "0.4.3", features = ["serde"] }
+validator = { version = "0.16.1", features = ["derive"] }
+regex = "1.10.2"
