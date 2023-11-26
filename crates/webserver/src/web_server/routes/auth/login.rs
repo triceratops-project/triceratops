@@ -9,9 +9,7 @@ use axum::{
 };
 use chrono::{DateTime, Utc};
 use regex::Regex;
-use sea_orm::{
-    ActiveModelTrait, ColumnTrait, Condition, EntityTrait, QueryFilter, Set, TryIntoModel,
-};
+use sea_orm::{ColumnTrait, Condition, EntityTrait, QueryFilter, Set, TryIntoModel};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sha2::{Digest, Sha512};
@@ -66,7 +64,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
         .one(state.get_pool())
         .await;
 
-    let mut user = match users {
+    let user = match users {
         Ok(users) => users,
         Err(_) => {
             return (

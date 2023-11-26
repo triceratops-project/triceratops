@@ -3,6 +3,7 @@
     "cSpell.words": [
         "axum",
         "chrono",
+        "cuid",
         "fkey",
         "mobc",
         "serde"
