@@ -119,8 +119,8 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
     let new_user = Users::ActiveModel {
         id: Set(cuid2::create_id()),
         external_id: Set(None),
-        username: Set(body.username.trim().to_owned()),
-        email: Set(body.email.trim().to_owned()),
+        username: Set(body.username.trim().to_lowercase().to_owned()),
+        email: Set(body.email.trim().to_lowercase().to_owned()),
         password: Set(Some(password_hash.to_string())),
         first_name: Set(body.first_name),
         last_name: Set(body.last_name),
@@ -157,7 +157,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
         id: Set(cuid2::create_id()),
         token: Set(hex_encoding),
         user_id: Set(new_user_as_model.id.clone()),
-        ip_address: Set(Ipv4Addr::new(127, 0, 0, 1).to_string()),
+        ip_address: Set(Ipv4Addr::new(0, 0, 0, 0).to_string()),
         expires_at: Set(None),
         created_at: Set(utc_time),
     };
