@@ -1,10 +1,11 @@
-use redis::aio::Connection;
+use mobc::Pool;
+use mobc_redis::{redis, RedisConnectionManager};
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 use std::{sync::Arc, time::Duration};
 
 pub struct InternalAppState {
     pool: DatabaseConnection,
-    redis: Connection,
+    redis: Pool<RedisConnectionManager>,
 }
 
 pub type AppState = Arc<InternalAppState>;
@@ -27,11 +28,16 @@ impl InternalAppState {
 
         let redis_url = std::env::var("REDIS_URL").expect("REDIS_URL must be set");
 
-        let redis = redis::Client::open(redis_url)
-            .expect("Failed to connect to redis")
-            .get_tokio_connection()
-            .await
-            .expect("Failed to connect to redis");
+        let redis_connection = redis::Client::open(redis_url).expect("Failed to connect to redis");
+
+        let redis_manager = RedisConnectionManager::new(redis_connection);
+
+        let redis = Pool::builder()
+            .get_timeout(Some(Duration::from_secs(3)))
+            .max_open(100)
+            .max_idle(3)
+            .max_lifetime(Some(Duration::from_secs(120)))
+            .build(redis_manager);
 
         Self { pool, redis }
     }
@@ -40,7 +46,7 @@ impl InternalAppState {
         &self.pool
     }
 
-    pub fn get_redis(&self) -> &Connection {
+    pub fn get_redis(&self) -> &Pool<RedisConnectionManager> {
         &self.redis
     }
 }

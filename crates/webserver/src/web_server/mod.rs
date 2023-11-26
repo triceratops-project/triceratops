@@ -3,6 +3,7 @@ use dotenvy::dotenv;
 use std::net::SocketAddr;
 
 mod routes;
+mod middleware;
 mod state;
 
 pub async fn start() {
