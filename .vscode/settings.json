@@ -7,5 +7,6 @@
         "fkey",
         "mobc",
         "serde"
-    ]
+    ],
+    "editor.tabSize": 4,
 }

@@ -2,10 +2,9 @@
 import * as React from 'react';
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    label: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, placeholder, value, className, ...props }) => {
+const TextInput: React.FC<TextInputProps> = ({ placeholder, value, className, ...props }) => {
     return (
         <div>
             <input

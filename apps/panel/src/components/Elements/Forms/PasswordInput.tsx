@@ -3,10 +3,9 @@ import * as React from 'react';
 import { TextInputProps } from '@components/Elements/Forms/TextInput';
 
 interface PasswordInputProps extends TextInputProps {
-    label: string;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ label, placeholder, value, className, ...props }) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ placeholder, value, className, ...props }) => {
     return (
         <div>
             <input

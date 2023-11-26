@@ -7,6 +7,14 @@ import PasswordInput from '@elements/Forms/PasswordInput';
 export default function LoginContainer({ }) {
     const t = useTranslations('Login');
 
+    async function create(formData: FormData) {
+        'use server';
+        const username = formData.get('username');
+        const password = formData.get('password');
+
+        console.log(username, password)
+    }
+
     return (
         <>
             <div className="flex justify-end p-6 xl:p-24 h-screen w-full">
@@ -29,12 +37,13 @@ export default function LoginContainer({ }) {
                     </div>
 
                     <div className="flex flex-col justify-center text-center px-12 pt-6">
-                        <TextInput label={t('login-username')} placeholder={t('login-username')} className="h-10 w-full"></TextInput>
-                        <PasswordInput label={t('login-password')} placeholder={t('login-password')} className="h-10 w-full mt-2"></PasswordInput>
-                        <Submit value={t('login-button') + " 🥸"} className="font-bold h-10 mt-4 w-full"></Submit>
-                        <p className='text-start pl-2 text-neutral-600'>or, <a href='/register' className='text-pink-400 hover:text-pink-300'>register an account.</a></p>
+                        <form action={create}>
+                            <TextInput name="username" placeholder={t('login-username')} className="h-10 w-full"></TextInput>
+                            <PasswordInput name="password" placeholder={t('login-password')} className="h-10 w-full mt-2"></PasswordInput>
+                            <Submit value={t('login-button') + " 🥸"} className="font-bold h-10 mt-4 w-full"></Submit>
+                            <p className='text-start pl-2 text-neutral-600'>or, <a href='/register' className='text-pink-400 hover:text-pink-300'>register an account.</a></p>
+                        </form>
                     </div>
-                    <p className='hidden'>kill youself, now!!!?</p>
                 </div>
             </div>
         </>
