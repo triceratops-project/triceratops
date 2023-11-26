@@ -5,7 +5,7 @@ export default function Triceratops({ }) {
         <>
             <div className="">
                 <Image
-                    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpreview.redd.it%2Fh3drjftmpoj61.jpg%3Fauto%3Dwebp%26s%3D996924a65364d84c706298673bc0f3fa3312e368&f=1&nofb=1&ipt=889860cb3002f7e08582970f16d583dcd95faf4eccfe025b7068e896f8dbea76&ipo=images"
+                    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmiro.medium.com%2Fmax%2F6400%2F0*PBFzBqxqeJ7eFdgB&f=1&nofb=1&ipt=97b99a29d843351273391eb3580619aa3dacbd3e59f8e40b26cf346afce04ba2&ipo=images"
                     fill
                     alt="Dinosaur"
                 />

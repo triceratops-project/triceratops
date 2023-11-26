@@ -6,7 +6,8 @@
         "cuid",
         "fkey",
         "mobc",
-        "serde"
+        "serde",
+        "Unauthorised"
     ],
     "editor.tabSize": 4,
 }

@@ -1,6 +1,12 @@
-import {redirect} from 'next/navigation';
+import Link from 'next/link'
 
-// Redirect the user to the default locale when `/` is requested
-export default function RootPage() {
-  redirect('/en');
+export default function Home({ }) {
+	return (
+		<>
+			<h1>boobs</h1>
+			<Link href={`/cool-page`}>
+				cool page
+			</Link>
+		</>
+	)
 }
