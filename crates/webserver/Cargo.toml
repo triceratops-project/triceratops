@@ -31,3 +31,13 @@ cuid2 = "0.1.2"
 dotenvy = "0.15.7"
 mobc = "0.8.3"
 mobc-redis = "0.8.2"
+zeroize = { version = "1.7.0", features = [
+    "serde",
+    "derive",
+    "std",
+    "aarch64",
+] }
+rand = { version = "0.8.5", features = ["serde"] }
+rand_core = { version = "0.6.4", features = ["std", "serde"] }
+argon2 = { version = "0.5.2", features = ["std", "zeroize"] }
+chrono = { version = "0.4.31", features = ["serde"] }

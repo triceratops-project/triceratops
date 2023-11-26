@@ -8,8 +8,6 @@ pub async fn auth<B>(
     request: Request<B>,
     next: Next<B>,
 ) -> Response {
-    // let a: () = state.get_redis().set("test", 42).await.unwrap();
-
     let _a: () = state
         .get_redis()
         .get()

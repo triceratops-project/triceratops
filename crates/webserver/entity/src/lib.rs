@@ -7,4 +7,5 @@ pub mod locations;
 pub mod nests;
 pub mod nodes;
 pub mod servers;
+pub mod sessions;
 pub mod users;

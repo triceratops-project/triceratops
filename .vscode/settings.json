@@ -2,6 +2,8 @@
     "rust-analyzer.showUnlinkedFileNotification": false,
     "cSpell.words": [
         "axum",
-        "fkey"
+        "fkey",
+        "mobc",
+        "chrono"
     ]
 }

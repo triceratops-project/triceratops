@@ -34,9 +34,9 @@ impl InternalAppState {
 
         let redis = Pool::builder()
             .get_timeout(Some(Duration::from_secs(3)))
+            .max_lifetime(Some(Duration::from_secs(120)))
             .max_open(100)
             .max_idle(3)
-            .max_lifetime(Some(Duration::from_secs(120)))
             .build(redis_manager);
 
         Self { pool, redis }

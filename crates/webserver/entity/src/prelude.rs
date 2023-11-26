@@ -5,4 +5,5 @@ pub use super::locations::Entity as Locations;
 pub use super::nests::Entity as Nests;
 pub use super::nodes::Entity as Nodes;
 pub use super::servers::Entity as Servers;
+pub use super::sessions::Entity as Sessions;
 pub use super::users::Entity as Users;

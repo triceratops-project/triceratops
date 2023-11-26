@@ -9,25 +9,37 @@ use serde::{Deserialize, Serialize};
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub id: String,
+    #[sea_orm(unique)]
     pub external_id: Option<String>,
+    #[sea_orm(unique)]
     pub username: String,
+    #[sea_orm(unique)]
     pub email: String,
+    #[serde(skip_serializing)]
     pub password: Option<String>,
     pub first_name: Option<String>,
     pub last_name: Option<String>,
     pub last_login_at: Option<DateTimeUtc>,
-    pub created_at: DateTime,
+    pub created_at: DateTimeUtc,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
     #[sea_orm(has_many = "super::servers::Entity")]
     Servers,
+    #[sea_orm(has_many = "super::sessions::Entity")]
+    Sessions,
 }
 
 impl Related<super::servers::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Servers.def()
+    }
+}
+
+impl Related<super::sessions::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Sessions.def()
     }
 }
 
