@@ -1,5 +1,6 @@
 use dotenvy::dotenv;
 use std::net::SocketAddr;
+use tokio::net::TcpListener;
 
 mod middleware;
 mod routes;
@@ -12,6 +13,6 @@ pub async fn start() {
 
     let router = routes::route().await;
 
-    let listener = tokio::net::TcpListener::bind(socket_address).await.unwrap();
-    axum::serve(listener, router).await.unwrap();
+    let listener = TcpListener::bind(socket_address).await.unwrap();
+    axum::serve(listener, router.into_make_service_with_connect_info::<SocketAddr>()).await.unwrap();
 }
