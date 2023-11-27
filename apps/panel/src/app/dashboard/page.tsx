@@ -1,5 +1,5 @@
 import LoginContainer from '@components/Login/LoginContainer'
-import Triceratops from '@/components/Login/Triceratops'
+import Triceratops from '@/components/Triceratops'
 
 export default function LoginPage({ }) {
 

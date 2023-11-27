@@ -1,8 +1,8 @@
 'use client'
-import LoginContainer from '@components/Login/LoginContainer'
+import RegisterContainer from '@/components/Register/RegisterContainer'
 import Triceratops from '@/components/Triceratops'
-import { redirect } from 'next/navigation';
 import { isUserAuthenticated } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 export default function LoginPage({ }) {
 	if (isUserAuthenticated()) {
@@ -17,7 +17,7 @@ export default function LoginPage({ }) {
 
 			<div className="">
 				<div className="">
-					<LoginContainer />
+					<RegisterContainer />
 				</div>
 			</div>
 		</>
