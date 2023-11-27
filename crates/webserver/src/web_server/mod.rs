@@ -1,9 +1,8 @@
-use axum::Server;
 use dotenvy::dotenv;
 use std::net::SocketAddr;
 
-mod routes;
 mod middleware;
+mod routes;
 mod state;
 
 pub async fn start() {
@@ -13,9 +12,6 @@ pub async fn start() {
 
     let router = routes::route().await;
 
-    Server::try_bind(&socket_address)
-        .unwrap()
-        .serve(router.into_make_service())
-        .await
-        .unwrap();
+    let listener = tokio::net::TcpListener::bind(socket_address).await.unwrap();
+    axum::serve(listener, router).await.unwrap();
 }

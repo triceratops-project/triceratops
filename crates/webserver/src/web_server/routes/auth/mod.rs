@@ -7,6 +7,7 @@ use crate::web_server::{
 
 mod login;
 mod logout;
+mod oauth;
 mod register;
 
 pub fn router(state: AppState) -> Router<AppState> {
@@ -22,7 +23,8 @@ pub fn router(state: AppState) -> Router<AppState> {
         .route(
             "/register",
             post(register::handler).layer(middleware::from_fn(Guest)),
-        );
+        )
+        .nest("/oauth", oauth::router());
 
     return router;
 }

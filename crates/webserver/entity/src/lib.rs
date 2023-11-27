@@ -2,6 +2,7 @@
 
 pub mod prelude;
 
+mod connections;
 pub mod eggs;
 pub mod locations;
 pub mod nests;

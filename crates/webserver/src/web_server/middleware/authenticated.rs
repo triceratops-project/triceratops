@@ -1,11 +1,11 @@
 use axum::{
-    extract::State,
-    headers::{authorization::Bearer, Authorization},
-    http::{Request, StatusCode},
+    extract::{Request, State},
+    http::StatusCode,
     middleware::Next,
     response::Response,
-    RequestPartsExt, TypedHeader,
+    RequestPartsExt,
 };
+use axum_extra::{TypedHeader, headers::{Authorization, authorization::Bearer}};
 use chrono::Utc;
 use sea_orm::{EntityTrait, ModelTrait};
 use sha2::{Digest, Sha512};
@@ -13,10 +13,10 @@ use triceratops_server_entity::{sessions as Sessions, users as Users};
 
 use crate::web_server::state::AppState;
 
-pub async fn auth<B>(
+pub async fn auth(
     State(state): State<AppState>,
-    request: Request<B>,
-    next: Next<B>,
+    request: Request,
+    next: Next,
 ) -> Result<Response, StatusCode> {
     let (mut parts, body) = request.into_parts();
 

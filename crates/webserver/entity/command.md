@@ -1,4 +1,4 @@
-`sea generate entity -lo ./src --with-serde both --model-extra-attributes 'serde(rename_all = "camelCase")'`
+`sea generate entity -lo ./src1 --with-serde both --model-extra-attributes 'serde(rename_all = "camelCase")'`
 
 Run this command in the entities directory!
 **This will overwrite existing files!**
