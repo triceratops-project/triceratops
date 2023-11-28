@@ -168,7 +168,7 @@ export default function LoginContainer({ }) {
                             <TextInput name="email" placeholder={"Email"} className="h-10 w-full mt-2" onChange={handleEmailChange} valid={isEmailValid}></TextInput>
                             <PasswordInput name="password" placeholder={"Password"} className="h-10 w-full mt-2" onChange={handlePasswordChange} valid={isPasswordValid}></PasswordInput>
                             <Submit value={"Submit"} className="font-bold h-10 mt-4 w-full"></Submit>
-                            <p className='text-start pl-2 text-neutral-600'>or, <a href='/register' className='text-pink-400 hover:text-pink-300'>register an account.</a></p>
+                            <p className='text-start pl-2 text-neutral-600'>or, <a href='/register' className='text-pink-400 hover:text-pink-300'>login to an account.</a></p>
                         </form>
                     </div>
                 </div>

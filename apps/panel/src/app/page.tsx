@@ -1,12 +1,11 @@
-import Link from 'next/link'
+'use client'
+import { isUserAuthenticated } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 export default function Home({ }) {
-	return (
-		<>
-			<h1>boobs</h1>
-			<Link href={`/cool-page`}>
-				cool page
-			</Link>
-		</>
-	)
+	if (isUserAuthenticated()) {
+		return redirect('/dashboard');
+	}
+
+	return redirect('/login');
 }
