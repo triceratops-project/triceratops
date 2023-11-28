@@ -27,10 +27,10 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Connections::Scopes).string().not_null())
                     .col(
                         ColumnDef::new(Connections::CreatedAt)
-                            .timestamp_with_time_zone()
+                            .timestamp()
                             .not_null(),
                     )
-                    .col(ColumnDef::new(Connections::ExpiresAt).timestamp_with_time_zone())
+                    .col(ColumnDef::new(Connections::ExpiresAt).timestamp())
                     .foreign_key(
                         ForeignKey::create()
                             .name("fk_connections_user_id")
