@@ -33,10 +33,10 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Users::Password).char_len(97))
                     .col(ColumnDef::new(Users::FirstName).string())
                     .col(ColumnDef::new(Users::LastName).string())
-                    .col(ColumnDef::new(Users::LastLoginAt).timestamp())
+                    .col(ColumnDef::new(Users::LastLoginAt).timestamp_with_time_zone())
                     .col(
                         ColumnDef::new(Users::CreatedAt)
-                            .timestamp()
+                            .timestamp_with_time_zone()
                             .not_null()
                             .default(Expr::current_timestamp()),
                     )
