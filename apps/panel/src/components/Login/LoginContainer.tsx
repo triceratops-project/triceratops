@@ -1,16 +1,14 @@
 'use client'
-import Image from 'next/image'
 import TextInput from '@elements/Forms/TextInput'
 import Submit from '@elements/Forms/Submit'
 import { z } from "zod";
 import PasswordInput from '@elements/Forms/PasswordInput';
 import axios from 'axios';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
+import Logo from '@components/Logo';
 
 export default function LoginContainer({ }) {
-    const { push } = useRouter();
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isUsernameValid, setIsUsernameValid] = useState(true);
@@ -82,7 +80,7 @@ export default function LoginContainer({ }) {
                 lastName: user.lastName
             }));
 
-            push('/dashboard');
+            redirect('/dashboard');
         }).catch((error) => {
             if (!error?.response) {
                 console.log(error);
@@ -105,11 +103,7 @@ export default function LoginContainer({ }) {
                 <div className="bg-neutral-900 rounded-lg w-full md:w-4/12 xl:w-3/12 h-full xl:relative">
                     <div className="flex flex-col items-center pt-8">
                         <div className="relative h-28 w-28">
-                            <Image
-                                fill
-                                src="/assets/logos/triceratops.png"
-                                alt="Triceratops"
-                            />
+                            <Logo />
                         </div>
                         <hr className='w-16 h-0.5 rounded border-0 bg-neutral-700' />
                     </div>
