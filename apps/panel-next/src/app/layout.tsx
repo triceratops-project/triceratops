@@ -3,6 +3,15 @@ import type { Metadata } from 'next'
 
 import '@/app/global.css'
 
+import { Cabin } from 'next/font/google'
+
+const cabin = Cabin({
+	display: 'swap',
+	subsets: ['latin'],
+	variable: '--font-cabin'
+})
+
+
 export const metadata: Metadata = {
 	title: 'Triceratops',
 	description: 'Triceratops',

@@ -1,11 +1,12 @@
 import LoginContainer from '@components/Login/LoginContainer'
 import Triceratops from '@/components/Triceratops'
+import Sidebar from '@/components/Dashboard/Sidebar'
 
-export default function LoginPage({ }) {
+export default function DashboardPage({ }) {
 
 	return (
 		<>
-			<h1>cock and ball</h1>
+			<Sidebar />
 		</>
 	)
 }

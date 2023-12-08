@@ -1,6 +1,6 @@
 'use client'
 export function isUserAuthenticated(): boolean {
-    return !!localStorage.getItem('authorization'); // FIXME: this erroring
+    return !!localStorage.getItem('authorization');
 }
 
 export function logoutUser() {

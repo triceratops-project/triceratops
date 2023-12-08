@@ -4,7 +4,7 @@ import Triceratops from '@/components/Triceratops'
 import { isUserAuthenticated } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
-export default function LoginPage({ }) {
+export default function RegisterPage({ }) {
 	if (isUserAuthenticated()) {
 		redirect('/dashboard');
 	}
