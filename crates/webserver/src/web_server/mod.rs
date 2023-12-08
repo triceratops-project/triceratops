@@ -11,7 +11,8 @@ mod state;
 pub async fn start() {
     dotenv().ok();
 
-    let socket_address = SocketAddr::from(([127, 0, 0, 1], 8080));
+    let socket_port = std::env::var("PORT").expect("PORT must be set");
+    let socket_address = SocketAddr::from(([127, 0, 0, 1], socket_port.parse::<u16>().unwrap()));
 
     #[cfg(not(debug_assertions))]
     compile_error!("REMOVE THE DANGEROUS CORS SHIT, CSRF AND ALL!?");
