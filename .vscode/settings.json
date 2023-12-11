@@ -6,8 +6,10 @@
         "cuid",
         "fkey",
         "mobc",
+        "precompress",
         "serde",
         "Unauthorised"
     ],
     "editor.tabSize": 4,
+    "rust-analyzer.diagnostics.useRustcErrorCode": true,
 }

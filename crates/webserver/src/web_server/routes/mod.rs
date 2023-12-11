@@ -4,6 +4,7 @@ use std::sync::Arc;
 
 mod auth;
 mod servers;
+mod spa;
 mod users;
 
 pub async fn route() -> Router {
@@ -11,12 +12,13 @@ pub async fn route() -> Router {
 
     let router = Router::new()
         .nest(
-            "/auth",
+            "/api/auth",
             auth::router(app_state.clone())
                 .layer(middleware::from_fn_with_state(app_state.clone(), RateLimit)),
         )
-        .nest("/servers", servers::router(app_state.clone()))
-        .nest("/users", users::router(app_state.clone()))
+        .nest("/api/servers", servers::router(app_state.clone()))
+        .nest("/api/users", users::router(app_state.clone()))
+        .nest("/", spa::router())
         .with_state(app_state);
 
     return router;
