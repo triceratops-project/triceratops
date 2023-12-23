@@ -18,7 +18,7 @@ pub async fn route() -> Router {
         )
         .nest("/api/servers", servers::router(app_state.clone()))
         .nest("/api/users", users::router(app_state.clone()))
-        .nest("/", spa::router())
+        .merge(spa::router())
         .with_state(app_state);
 
     return router;
