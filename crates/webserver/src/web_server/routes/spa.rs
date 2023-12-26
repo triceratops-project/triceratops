@@ -6,7 +6,7 @@ use crate::web_server::state::AppState;
 pub fn router() -> Router<AppState> {
     Router::new().fallback_service(
         ServeDir::new("../../apps/panel-svelte/build/")
-            .not_found_service(ServeFile::new("../../apps/panel-svelte/build/index.html"))
+            .fallback(ServeFile::new("../../apps/panel-svelte/build/index.html"))
             .append_index_html_on_directories(false),
     )
 }
