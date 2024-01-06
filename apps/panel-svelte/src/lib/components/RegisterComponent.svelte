@@ -13,9 +13,9 @@
         </div>
         <div class="flex justify-center text-center pt-6">
             <div>
-                <h1 class="font-bold text-2xl md:text-5xl">Login</h1>
+                <h1 class="font-bold text-2xl md:text-5xl">Register</h1>
                 <h2 class="font-medium text-md md:text-lg mt-0.5">
-                    Enter login details
+                    Register your account
                 </h2>
             </div>
         </div>
@@ -25,10 +25,16 @@
             <!-- {errorOccurred && <p className='text-start pl-2 text-red-600'>An unexpected error has occurred.</p>} -->
             <form>
                 <input
+                    name="email"
+                    type="text"
+                    placeholder="Email"
+                    class="h-10 w-full appearance-none rounded-md px-3 bg-neutral-800 placeholder:text-neutral-500 focus:border-2 border-pink-400 focus:ring ring-pink-400/40 outline-none"
+                />
+                <input
                     name="username"
                     type="text"
-                    placeholder="Email or Username"
-                    class="h-10 w-full appearance-none rounded-md px-3 bg-neutral-800 placeholder:text-neutral-500 focus:border-2 border-pink-400 focus:ring ring-pink-400/40 outline-none"
+                    placeholder="Username"
+                    class="h-10 w-full mt-2 appearance-none rounded-md px-3 bg-neutral-800 placeholder:text-neutral-500 focus:border-2 border-pink-400 focus:ring ring-pink-400/40 outline-none"
                 />
                 <input
                     name="password"
@@ -38,14 +44,14 @@
                 />
                 <input
                     type="submit"
-                    value="Login"
+                    value="Register"
                     class="font-bold h-10 mt-4 w-full appearance-none rounded-md bg-pink-500 hover:bg-pink-400 transition cursor-pointer active:ring ring-pink-400/40"
                 />
                 <p class="text-start pl-2 text-neutral-500">
                     or, <a
-                        href="/register"
+                        href="/login"
                         class="text-pink-400 hover:text-pink-300"
-                        >register for an account.</a
+                        >login to an account.</a
                     >
                 </p>
             </form>
