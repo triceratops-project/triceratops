@@ -12,6 +12,6 @@
         "rust-lang.rust-analyzer",
         "svelte.svelte-vscode",
         "bradlc.vscode-tailwindcss",
-        "zxh404.vscode-proto3",
+        "zxh404.vscode-proto3"
     ]
 }

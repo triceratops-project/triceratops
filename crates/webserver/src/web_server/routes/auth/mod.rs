@@ -1,9 +1,8 @@
-use axum::{middleware, routing::post, Router};
-
 use crate::web_server::{
     middleware::{Auth, Guest},
     state::AppState,
 };
+use axum::{middleware, routing::post, Router};
 
 mod login;
 mod logout;

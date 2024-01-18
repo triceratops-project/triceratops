@@ -2,9 +2,10 @@ use std::net::SocketAddr;
 
 use crate::web_server::state::AppState;
 use axum::{
-    extract::{ConnectInfo, Path, State},
+    extract::{ConnectInfo, State},
+    http::StatusCode,
     response::{Html, IntoResponse, Response},
-    Extension, Json, http::StatusCode,
+    Extension, Json,
 };
 use oauth2::{reqwest::async_http_client, AuthorizationCode, PkceCodeVerifier, TokenResponse};
 use redis::AsyncCommands;
@@ -23,51 +24,38 @@ pub async fn headless_handler() {
 }
 
 #[cfg(debug_assertions)]
-pub async fn headless_handler(Path(provider_id): Path<String>) -> Response {
-    Html(format!(
+pub async fn headless_handler() -> Response {
+    Html(
         r#"<script async>
-        (async () => {{
-    const params = new Proxy(new URLSearchParams(window.location.search), {{
-        get: (searchParams, prop) => searchParams.get(prop),
-    }});
-
-    const req = await fetch("http://localhost:8080/auth/oauth/{}/callback", {{
-        method: "POST",
-        headers: {{
-            "Content-Type": "application/json",
-        }},
-        body: JSON.stringify({{
-            code: params.code,
-            state: params.state,
-        }}),
-    }});
-    }})();
-
+        (async () => {
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+    
+        const req = await fetch("http://localhost:8080/api/auth/oauth/discord/callback", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                code: params.code,
+                state: params.state,
+            }),
+        });
+        })();
     </script>"#,
-        provider_id
-    ))
+    )
     .into_response()
 }
 
 pub async fn handler(
-    Path(provider): Path<String>,
     State(state): State<AppState>,
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
     Json(body): Json<RequestQuery>,
 ) -> Response {
-    let oauth_provider = match provider.as_str() {
-        "discord" => state.get_oauth().discord(),
-        "whmcs" => todo!(),
-        _ => {
-            return (
-                StatusCode::NOT_FOUND,
-                Json(json!({"message": "Invalid OAuth2 Provider"})).into_response(),
-            )
-                .into_response()
-        }
-    };
+    let oauth_provider = state.get_oauth().discord();
 
-    let mut redis_client = match state.get_redis().get().await {
+    let mut redis_client = match state.get_cache().get().await {
         Ok(client) => client,
         Err(_) => {
             return (
@@ -79,7 +67,7 @@ pub async fn handler(
     };
 
     let csrf_token: String = match redis_client
-        .get(format!("{}:{}:csrf_code", connection_info.ip(), provider))
+        .get(format!("{}:discord:csrf_code", connection_info.ip()))
         .await
     {
         Ok(Some(code)) => code,
@@ -101,7 +89,7 @@ pub async fn handler(
     }
 
     let pkce_verifier: String = match redis_client
-        .get(format!("{}:{}:pkce_code", connection_info.ip(), provider))
+        .get(format!("{}:discord:pkce_code", connection_info.ip()))
         .await
     {
         Ok(Some(code)) => code,

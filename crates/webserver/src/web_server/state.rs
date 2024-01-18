@@ -17,7 +17,6 @@ pub struct InternalAppState {
 }
 
 pub struct InternalOAuthProviders {
-    // pub whmcs:
     discord: OAuthClient,
 }
 
@@ -73,7 +72,7 @@ impl InternalAppState {
             ),
         )
         .set_redirect_uri(RedirectUrl::from_url(
-            Url::parse("http://localhost:8080/auth/oauth/discord/callback").unwrap(),
+            Url::parse("http://localhost:8080/api/auth/oauth/discord/callback").unwrap(),
         ))
         .set_revocation_uri(RevocationUrl::from_url(
             Url::parse("https://discord.com/api/oauth2/token/revoke").unwrap(),
@@ -90,7 +89,7 @@ impl InternalAppState {
         &self.pool
     }
 
-    pub fn get_redis(&self) -> &Pool<RedisConnectionManager> {
+    pub fn get_cache(&self) -> &Pool<RedisConnectionManager> {
         &self.redis
     }
 

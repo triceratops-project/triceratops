@@ -2,30 +2,20 @@ use std::net::SocketAddr;
 
 use crate::web_server::state::AppState;
 use axum::{
-    extract::{ConnectInfo, Path, State},
+    extract::{ConnectInfo, State},
+    http::StatusCode,
     response::{IntoResponse, Response},
-    Extension, Json, http::StatusCode,
+    Extension, Json,
 };
 use oauth2::{CsrfToken, PkceCodeChallenge, Scope};
 use redis::{AsyncCommands, SetExpiry, SetOptions};
 use serde_json::json;
 
 pub async fn handler(
-    Path(provider): Path<String>,
     State(state): State<AppState>,
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
 ) -> Response {
-    let oauth_provider = match provider.as_str() {
-        "discord" => state.get_oauth().discord(),
-        "whmcs" => todo!(),
-        _ => {
-            return (
-                StatusCode::NOT_FOUND,
-                Json(json!({"message": "Invalid OAuth2 Provider"})).into_response(),
-            )
-                .into_response()
-        }
-    };
+    let oauth_provider = state.get_oauth().discord();
 
     let (pkce_challenge, pkce_verifier) = PkceCodeChallenge::new_random_sha256();
 
@@ -36,7 +26,7 @@ pub async fn handler(
         .set_pkce_challenge(pkce_challenge)
         .url();
 
-    let mut redis_client = match state.get_redis().get().await {
+    let mut redis_client = match state.get_cache().get().await {
         Ok(client) => client,
         Err(_) => {
             return (
@@ -51,7 +41,7 @@ pub async fn handler(
 
     if let Err(_) = redis_client
         .set_options::<String, &String, ()>(
-            format!("{}:{}:pkce_code", connection_info.ip(), provider),
+            format!("{}:discord:pkce_code", connection_info.ip()),
             pkce_verifier.secret(),
             redis_expiry,
         )
@@ -68,7 +58,7 @@ pub async fn handler(
 
     if let Err(_) = redis_client
         .set_options::<String, &String, ()>(
-            format!("{}:{}:csrf_code", connection_info.ip(), provider),
+            format!("{}:discord:csrf_code", connection_info.ip()),
             csrf_token.secret(),
             redis_expiry,
         )
