@@ -1,35 +1,35 @@
 <script lang="ts">
+    // @ts-ignore
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import {
         faDiscord,
-        faDribbble,
         faGithub,
-        faDeviantart,
         faGoogle,
-        faWeixin,
         faMicrosoft,
-        faVk,
-        faReddit,
-        faAngular,
+        type IconDefinition,
     } from "@fortawesome/free-brands-svg-icons";
-    import { faBulldozer } from "@fortawesome/pro-duotone-svg-icons";
+
+    import { faUser } from "@fortawesome/pro-regular-svg-icons";
+
     import type { PageData } from "./$types";
 
     export let data: PageData;
-    export let sign_in_options_data = data.beanbo;
+    export let oauthProviders = data.oauthProviders;
 
-    let logos = {
+    const logos: { [key: string]: IconDefinition } = {
         faDiscord: faDiscord,
-        faDribbble: faDribbble,
         faGithub: faGithub,
-        faDeviantart: faDeviantart,
         faGoogle: faGoogle,
-        faWeixin: faWeixin,
         faMicrosoft: faMicrosoft,
-        faVk: faVk,
-        faReddit: faReddit,
-        faAngular: faAngular,
     };
+
+    async function oauthRedirect(provider: string) {
+        const res = await fetch(`/api/auth/oauth/${provider}`);
+
+        const resJson = await res.json();
+
+        window.location = resJson.url;
+    }
 </script>
 
 <div class="hidden xl:block">
@@ -99,26 +99,21 @@
                 class="w-16 h-0.5 rounded border-0 bg-neutral-700 mt-4 my-2 justify-center"
             />
             <div class="flex flex-col space-y-2 w-full lg:px-8 px-6">
-                {#each sign_in_options_data.services as bean}
-                    <a
-                        href="https://men.com"
+                {#each oauthProviders.services as service}
+                    <button
+                        on:click={() => {
+                            oauthRedirect(service.iden).then();
+                        }}
                         class="flex justify-center items-center font-semibold h-10 mt-4 w-full appearance-none rounded-md bg-[#5865F2] hover:bg-[#6f78dc] transition cursor-pointer active:ring ring-[#5865F2]/40"
                         ><p>
                             <FontAwesomeIcon
-                                icon={logos[bean.icon]}
+                                icon={logos[service.icon]}
                                 class="mr-1"
                             />
-                            {bean.displayName}
-                        </p></a
-                    >{/each}
-
-                <a
-                    href="https://netflix.com"
-                    class="flex justify-center items-center font-semibold h-10 mt-4 w-full appearance-none rounded-md bg-[#5865F2] hover:bg-[#6f78dc] transition cursor-pointer active:ring ring-[#5865F2]/40"
-                    ><p>
-                        <FontAwesomeIcon icon={faDribbble} class="mr-1" /> Dikord
-                    </p></a
-                >
+                            {service.displayName}
+                        </p>
+                    </button>
+                {/each}
             </div>
         </div>
     </div>
