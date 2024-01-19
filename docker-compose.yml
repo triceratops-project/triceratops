@@ -14,8 +14,8 @@ services:
       - POSTGRES_DB=triceratops
 
   redis:
-    # image: eqalpha/keydb:x86_64_v6.3.4 # Uncomment this line when using anything but Mx Mac
-    image: eqalpha/keydb:arm64_v6.3.4 # This works on my Mac, don't come at me.
+    image: eqalpha/keydb:x86_64_v6.3.4 # Uncomment this line when using anything but Mx Mac
+    # image: eqalpha/keydb:arm64_v6.3.4 # This works on my Mac, don't come at me.
     restart: always
     ports:
       - 6379:6379

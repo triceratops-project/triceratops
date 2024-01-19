@@ -1,4 +1,13 @@
 <script>
+    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
+    import { faDiscord, faDribbble } from "@fortawesome/free-brands-svg-icons";
+    import { faBulldozer } from "@fortawesome/pro-duotone-svg-icons";
+
+    async function beanBoozled() {
+        let beans = await (await fetch("/api/auth/oath")).json;
+
+        return await beans;
+    }
     // async function handleDiscordOauth() {
     //     const res = await fetch("/api/auth/oauth/discord");
     //     const resJson = await res.json();
@@ -12,7 +21,7 @@
 
 <div class="flex justify-end p-6 xl:p-24 h-screen w-full">
     <div
-        class="bg-neutral-900 rounded-lg w-full md:w-4/12 xl:w-3/12 h-full xl:relative"
+        class="flex flex-col items-center bg-neutral-900 rounded-lg w-full md:w-4/12 xl:w-3/12 h-full xl:relative"
     >
         <div class="flex flex-col items-center pt-8">
             <div class="relative h-28 w-28">
@@ -29,7 +38,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col justify-center text-center px-12 pt-6">
+        <div class="flex flex-col justify-center text-center lg:px-8 px-6 pt-6">
             <!-- {isUnauthorized && <p className='text-start pl-2 text-red-600'>Invalid username or password.</p>} -->
             <!-- {errorOccurred && <p className='text-start pl-2 text-red-600'>An unexpected error has occurred.</p>} -->
             <form>
@@ -59,12 +68,26 @@
                 </p>
             </form>
         </div>
-        <!-- <div>
-            <p>
-                Sign in with <button on:click={handleDiscordOauth}
-                    >Discord</button
-                >
-            </p>
-        </div> -->
+        <hr
+            class="w-16 h-0.5 rounded border-0 bg-neutral-700 mt-4 my-2 justify-center"
+        />
+        <div class="flex w-full lg:px-8 px-6">
+            {#each await beanBoozled() as bean}
+                <a
+                    href="https://men.com"
+                    class="flex justify-center items-center font-semibold h-10 mt-4 w-full appearance-none rounded-md bg-[#5865F2] hover:bg-[#6f78dc] transition cursor-pointer active:ring ring-[#5865F2]/40"
+                    ><p>
+                        <FontAwesomeIcon icon={faDiscord} class="mr-1" /> Dikord
+                    </p></a
+                >{/each}
+
+            <a
+                href="https://netflix.com"
+                class="flex justify-center items-center font-semibold h-10 mt-4 w-full appearance-none rounded-md bg-[#5865F2] hover:bg-[#6f78dc] transition cursor-pointer active:ring ring-[#5865F2]/40"
+                ><p>
+                    <FontAwesomeIcon icon={faDribbble} class="mr-1" /> Dikord
+                </p></a
+            >
+        </div>
     </div>
 </div>

@@ -11,7 +11,7 @@ pub async fn handler() -> Response {
                 "displayName": "Discord",
                 "iden": "discord",
                 "enabled": true,
-                "icon": "/img/discord.png"
+                "icon": "faDiscord"
             }
         ]
     }))
