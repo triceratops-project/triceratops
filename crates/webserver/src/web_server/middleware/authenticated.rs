@@ -25,13 +25,13 @@ pub async fn auth(
         .await
         .map_err(|_| StatusCode::UNAUTHORIZED)?;
 
-    let token_parts: Vec<&str> = auth_header.token().split(".").collect();
+    let token_parts: Vec<&str> = auth_header.token().split('.').collect();
 
     if token_parts.len() != 2 {
         return Err(StatusCode::UNAUTHORIZED);
     }
 
-    let session_id = match token_parts.get(0) {
+    let session_id = match token_parts.first() {
         Some(session_id) => *session_id,
         None => return Err(StatusCode::UNAUTHORIZED),
     };

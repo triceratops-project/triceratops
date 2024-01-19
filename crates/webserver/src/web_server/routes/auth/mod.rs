@@ -10,7 +10,9 @@ mod oauth;
 mod register;
 
 pub fn router(state: AppState) -> Router<AppState> {
-    let router = Router::new()
+    
+
+    Router::new()
         .route(
             "/login",
             post(login::handler).layer(middleware::from_fn(Guest)),
@@ -23,7 +25,5 @@ pub fn router(state: AppState) -> Router<AppState> {
             "/register",
             post(register::handler).layer(middleware::from_fn(Guest)),
         )
-        .nest("/oauth", oauth::router());
-
-    return router;
+        .nest("/oauth", oauth::router())
 }

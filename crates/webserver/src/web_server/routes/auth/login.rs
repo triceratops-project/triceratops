@@ -203,12 +203,12 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
         created_at: db_session_as_model.created_at,
     };
 
-    return (
+    (
         StatusCode::OK,
         Json(ResponseBody {
             user: user_as_model,
             session: response_session,
         }),
     )
-        .into_response();
+        .into_response()
 }

@@ -10,7 +10,9 @@ mod users;
 pub async fn route() -> Router {
     let app_state = Arc::new(InternalAppState::new().await);
 
-    let router = Router::new()
+    
+
+    Router::new()
         .nest(
             "/api/auth",
             auth::router(app_state.clone())
@@ -19,7 +21,5 @@ pub async fn route() -> Router {
         .nest("/api/servers", servers::router(app_state.clone()))
         .nest("/api/users", users::router(app_state.clone()))
         .merge(spa::router())
-        .with_state(app_state);
-
-    return router;
+        .with_state(app_state)
 }

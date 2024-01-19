@@ -11,13 +11,13 @@ mod user;
 mod users;
 
 pub fn router(state: AppState) -> Router<AppState> {
-    let router = Router::new()
+    
+
+    Router::new()
         .route("/", get(users::handler))
         .route(
             "/@me",
             get(me::handler).layer(middleware::from_fn_with_state(state, Auth)),
         )
-        .route("/:user_id", get(user::handler));
-
-    return router;
+        .route("/:user_id", get(user::handler))
 }

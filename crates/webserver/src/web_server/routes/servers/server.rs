@@ -26,9 +26,9 @@ pub async fn handler(Path(server_id): Path<String>, State(state): State<AppState
     };
 
     match server {
-        Some(server) => return Json(server).into_response(),
+        Some(server) => Json(server).into_response(),
         None => {
-            return (StatusCode::NOT_FOUND, Json(json!({"message": "Not Found"}))).into_response();
+            (StatusCode::NOT_FOUND, Json(json!({"message": "Not Found"}))).into_response()
         }
-    };
+    }
 }

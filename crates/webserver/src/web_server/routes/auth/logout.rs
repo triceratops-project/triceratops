@@ -18,7 +18,7 @@ pub async fn handler(
         .await;
 
     match db_action {
-        Ok(_) => return StatusCode::NO_CONTENT.into_response(),
-        Err(_) => return StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+        Ok(_) => StatusCode::NO_CONTENT.into_response(),
+        Err(_) => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
     }
 }

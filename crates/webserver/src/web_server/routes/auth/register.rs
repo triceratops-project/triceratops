@@ -83,7 +83,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
 
     match user_exists {
         Ok(user) => {
-            if user.len() > 0 {
+            if !user.is_empty() {
                 return (
                     StatusCode::CONFLICT,
                     Json(json!({"message": "Username or email are already in use"})),
@@ -199,7 +199,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
 
     match user {
         Ok(_) => {
-            return (
+            (
                 StatusCode::CREATED,
                 Json(ResponseBody {
                     user: new_user_as_model,
@@ -209,11 +209,11 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
                 .into_response()
         }
         Err(_) => {
-            return (
+            (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 Json(json!({"message": "Internal Server Error"})),
             )
-                .into_response();
+                .into_response()
         }
     }
 }

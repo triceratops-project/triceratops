@@ -1,14 +1,14 @@
 use crate::web_server::state::AppState;
 use axum::{
-    extract::{ConnectInfo, Request, State},
+    extract::{Request, State},
     http::StatusCode,
     middleware::Next,
     response::Response,
 };
-use std::net::SocketAddr;
+
 
 pub async fn rate_limit(
-    State(state): State<AppState>,
+    State(_state): State<AppState>,
     request: Request,
     next: Next,
 ) -> Result<Response, StatusCode> {

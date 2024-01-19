@@ -26,9 +26,9 @@ pub async fn handler(Path(user_id): Path<String>, State(state): State<AppState>)
     };
 
     match user {
-        Some(user) => return Json(user).into_response(),
+        Some(user) => Json(user).into_response(),
         None => {
-            return (StatusCode::NOT_FOUND, Json(json!({"message": "Not Found"}))).into_response();
+            (StatusCode::NOT_FOUND, Json(json!({"message": "Not Found"}))).into_response()
         }
-    };
+    }
 }
