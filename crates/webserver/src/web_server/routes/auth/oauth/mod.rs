@@ -1,8 +1,11 @@
 use crate::web_server::state::AppState;
-use axum::Router;
+use axum::{routing::get, Router};
 
 mod discord;
+mod services;
 
 pub fn router() -> Router<AppState> {
-    Router::new().nest("/discord", discord::router())
+    Router::new()
+        .route("/", get(services::handler))
+        .nest("/discord", discord::router())
 }

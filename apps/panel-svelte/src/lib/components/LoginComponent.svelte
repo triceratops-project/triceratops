@@ -1,4 +1,13 @@
 <script>
+    // async function handleDiscordOauth() {
+    //     const res = await fetch("/api/auth/oauth/discord");
+    //     const resJson = await res.json();
+
+    //     // redirect(302, resJson.url)
+
+    //     console.info(resJson);
+    //     window.location = resJson.url;
+    // }
 </script>
 
 <div class="flex justify-end p-6 xl:p-24 h-screen w-full">
@@ -50,5 +59,12 @@
                 </p>
             </form>
         </div>
+        <!-- <div>
+            <p>
+                Sign in with <button on:click={handleDiscordOauth}
+                    >Discord</button
+                >
+            </p>
+        </div> -->
     </div>
 </div>
