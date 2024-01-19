@@ -4,6 +4,7 @@
         "axum",
         "chrono",
         "cuid",
+        "deadpool",
         "fkey",
         "mobc",
         "pkce",
