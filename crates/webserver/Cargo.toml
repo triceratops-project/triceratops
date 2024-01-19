@@ -35,14 +35,12 @@ rand_core = { version = "0.6", features = ["std", "serde"] }
 argon2 = { version = "0.5", features = ["std", "zeroize"] }
 chrono = { version = "0.4", features = ["serde"] }
 sha2 = "0.10"
-hex = { version = "0.4", features = ["serde"] }
+base16ct = { version = "0.2.0", features = ["std"] }
 validator = { version = "0.16", features = ["derive"] }
 regex = "1.10"
-reqwest = { version = "0.11", features = [
-    "json",
-    "rustls-tls-native-roots",
-] }
+reqwest = { version = "0.11", features = ["json", "rustls-tls-native-roots"] }
 oauth2 = "4.4.2"
 url = { version = "2.5.0", features = ["serde"] }
 tower-http = { version = "0.5.1", features = ["fs", "cors"] }
 tower = { version = "0.4.13", features = ["util"] }
+jsonwebtoken = "9.2.0"

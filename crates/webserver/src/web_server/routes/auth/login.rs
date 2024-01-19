@@ -1,5 +1,3 @@
-use std::net::Ipv4Addr;
-
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use axum::{
     extract::State,
@@ -13,6 +11,7 @@ use sea_orm::{ColumnTrait, Condition, EntityTrait, QueryFilter, Set, TryIntoMode
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sha2::{Digest, Sha512};
+use std::net::Ipv4Addr;
 use triceratops_server_entity::sessions as Sessions;
 use triceratops_server_entity::users as Users;
 
@@ -160,7 +159,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
 
     let session_token_hash = hasher.finalize();
 
-    let hex_encoding = hex::encode(session_token_hash);
+    let hex_encoding = base16ct::lower::encode_string(&session_token_hash);
 
     let session = Sessions::ActiveModel {
         id: Set(cuid2::create_id()),

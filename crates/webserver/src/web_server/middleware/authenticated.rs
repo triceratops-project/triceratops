@@ -57,7 +57,7 @@ pub async fn auth(
 
     let session_token_hash = hasher.finalize();
 
-    if session.token != hex::encode(session_token_hash).to_string() {
+    if session.token != base16ct::lower::encode_string(&session_token_hash) {
         return Err(StatusCode::UNAUTHORIZED);
     }
 

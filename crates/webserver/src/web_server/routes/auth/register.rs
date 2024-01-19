@@ -151,7 +151,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
 
     let session_token_hash = hasher.finalize();
 
-    let hex_encoding = hex::encode(session_token_hash);
+    let hex_encoding = base16ct::lower::encode_string(&session_token_hash);
 
     let session = Sessions::ActiveModel {
         id: Set(cuid2::create_id()),
