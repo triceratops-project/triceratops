@@ -1,11 +1,11 @@
 default:
     just --list
 
-panel ARGS:
+panel ARGS="":
     pnpm install
     pnpm --filter "@triceratops/panel" build {{ARGS}}
 
-webserver ARGS:
+webserver ARGS="start":
     cargo run --bin triceratops-server -- {{ARGS}}
 
 daemon ARGS:
