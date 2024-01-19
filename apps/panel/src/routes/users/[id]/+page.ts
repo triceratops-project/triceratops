@@ -6,7 +6,7 @@ export const load: PageLoad = async ({ params }) => {
 
 	const res = await fetch(`/api/users/${id}`);
 
-	if (res.status == 404) {
+	if (res.status === 404) {
 		console.log(404);
 		error(404, "Not found");
 	}

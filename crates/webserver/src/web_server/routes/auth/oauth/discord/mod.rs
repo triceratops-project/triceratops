@@ -8,10 +8,7 @@ mod callback;
 mod redirect;
 
 pub fn router() -> Router<AppState> {
-    
-
-    Router::new().route("/", get(redirect::handler)).route(
-        "/callback",
-        post(callback::handler).get(callback::headless_handler),
-    )
+    Router::new()
+        .route("/", get(redirect::handler))
+        .route("/callback", post(callback::handler))
 }

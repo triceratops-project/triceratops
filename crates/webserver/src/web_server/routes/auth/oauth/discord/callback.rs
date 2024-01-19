@@ -4,7 +4,7 @@ use crate::web_server::state::AppState;
 use axum::{
     extract::{ConnectInfo, State},
     http::StatusCode,
-    response::{Html, IntoResponse, Response},
+    response::{IntoResponse, Response},
     Extension, Json,
 };
 use oauth2::{reqwest::async_http_client, AuthorizationCode, PkceCodeVerifier, TokenResponse};
@@ -16,36 +16,6 @@ use serde_json::json;
 pub struct RequestQuery {
     code: String,
     state: String,
-}
-
-#[cfg(not(debug_assertions))]
-pub async fn headless_handler() {
-    compile_error!("You should have removed the sodding debug handler for OAuth, Max & Hayden need to make front end support 3-legged oauth.");
-}
-
-#[cfg(debug_assertions)]
-pub async fn headless_handler() -> Response {
-    Html(
-        r#"<script async>
-        (async () => {
-        const params = new Proxy(new URLSearchParams(window.location.search), {
-            get: (searchParams, prop) => searchParams.get(prop),
-        });
-    
-        const req = await fetch("http://localhost:8080/api/auth/oauth/discord/callback", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                code: params.code,
-                state: params.state,
-            }),
-        });
-        })();
-    </script>"#,
-    )
-    .into_response()
 }
 
 pub async fn handler(

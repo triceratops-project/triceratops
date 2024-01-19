@@ -18,7 +18,7 @@ impl Discord {
             ),
         )
         .set_redirect_uri(RedirectUrl::from_url(
-            Url::parse("http://localhost:8080/api/auth/oauth/discord/callback").unwrap(),
+            Url::parse("http://localhost:8080/login/oauth/discord/callback").unwrap(),
         ))
         .set_revocation_uri(RevocationUrl::from_url(
             Url::parse("https://discord.com/api/oauth2/token/revoke").unwrap(),
