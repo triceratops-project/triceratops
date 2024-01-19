@@ -12,38 +12,38 @@ triceratops-server-entity = { path = "./entity" }
 
 axum = { version = "0.7.4", features = ["ws", "http2"] }
 axum-extra = { version = "0.9.2", features = ["cookie", "typed-header"] }
-clap = "4.4"
-redis = { version = "0.24.0", features = ["tokio-comp", "connection-manager"] }
+tower-http = { version = "0.5.1", features = ["fs", "cors"] }
+tower = { version = "0.4.13", features = ["util"] }
 sea-orm = { version = "0.12.11", features = [
     "sqlx-postgres",
     "runtime-tokio-rustls",
     "with-chrono",
 ] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+redis = { version = "0.24.0", features = ["tokio-comp", "connection-manager"] }
+deadpool-redis = "0.14"
+tracing = { version = "0.1.40", features = ["async-await"] }
+tracing-subscriber = { version = "0.3.18", features = ["chrono", "serde"] }
 tokio = { version = "1.35", features = [
     "sync",
     "macros",
     "rt-multi-thread",
     "tracing",
 ] }
-cuid2 = "0.1"
+clap = "4.4"
 dotenvy = "0.15"
-deadpool-redis = "0.14"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+regex = "1.10"
+validator = { version = "0.16", features = ["derive"] }
 rand = { version = "0.8", features = ["serde"] }
 rand_core = { version = "0.6", features = ["std", "serde"] }
+cuid2 = "0.1"
 argon2 = { version = "0.5", features = ["std", "zeroize"] }
-chrono = { version = "0.4", features = ["serde"] }
 sha2 = "0.10"
 base16ct = { version = "0.2.0", features = ["std"] }
-validator = { version = "0.16", features = ["derive"] }
-regex = "1.10"
+jsonwebtoken = "9.2.0"
 reqwest = { version = "0.11", features = ["json", "rustls-tls-native-roots"] }
 oauth2 = "4.4.2"
 url = { version = "2.5.0", features = ["serde"] }
-tower-http = { version = "0.5.1", features = ["fs", "cors"] }
-tower = { version = "0.4.13", features = ["util"] }
-jsonwebtoken = "9.2.0"
 error-stack = { version = "0.4.1", features = ["spantrace", "serde"] }
-tracing = { version = "0.1.40", features = ["async-await"] }
-tracing-subscriber = { version = "0.3.18", features = ["chrono", "serde"] }

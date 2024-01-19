@@ -12,9 +12,11 @@ use axum::{
 use chrono::{DateTime, Utc};
 use rand_core::OsRng;
 use regex::Regex;
-use sea_orm::{ColumnTrait, Condition, EntityTrait, QueryFilter, Set, TryIntoModel};
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, Condition, EntityTrait, QueryFilter, Set, TryIntoModel,
+};
 use serde::{Deserialize, Serialize};
-use serde_json::json;
+use serde_json::{json, Value};
 use sha2::{Digest, Sha512};
 use triceratops_server_entity::sessions as Sessions;
 use triceratops_server_entity::users as Users;
@@ -49,28 +51,26 @@ pub struct ResponseSessionToken {
     created_at: DateTime<Utc>,
 }
 
-pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody>) -> Response {
+pub async fn handler(
+    State(state): State<AppState>,
+    Json(body): Json<RequestBody>,
+) -> Result<Response, (StatusCode, Json<Value>)> {
     let username_regex = Regex::new("^[A-Za-z0-9_.]+$").unwrap();
     let username_pass_regex = username_regex.is_match(body.username.trim());
 
     if !username_pass_regex {
-        return (
+        return Err((
             StatusCode::BAD_REQUEST,
             Json(json!({"message": "Username must only contain letters A-z, 0-9, _, & ."})),
-        )
-            .into_response();
+        ));
     }
 
-    match body.validate() {
-        Ok(_) => {}
-        Err(e) => {
-            return (
-                StatusCode::BAD_REQUEST,
-                Json(json!({"message": e.to_string()})),
-            )
-                .into_response();
-        }
-    }
+    body.validate().map_err(|e| {
+        (
+            StatusCode::BAD_REQUEST,
+            Json(json!({"message": e.to_string()})),
+        )
+    })?;
 
     let user_exists = Users::Entity::find()
         .filter(
@@ -79,40 +79,32 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
                 .add(Users::Column::Username.eq(body.username.trim())),
         )
         .all(state.get_pool())
-        .await;
-
-    match user_exists {
-        Ok(user) => {
-            if !user.is_empty() {
-                return (
-                    StatusCode::CONFLICT,
-                    Json(json!({"message": "Username or email are already in use"})),
-                )
-                    .into_response();
-            }
-        }
-        Err(_) => {
-            return (
+        .await
+        .map_err(|_| {
+            (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 Json(json!({"message": "Internal Server Error"})),
             )
-                .into_response();
-        }
+        })?;
+
+    if !user_exists.is_empty() {
+        return Err((
+            StatusCode::CONFLICT,
+            Json(json!({"message": "Username or email are already in use"})),
+        ));
     }
 
     let password_salt = SaltString::generate(&mut OsRng);
     let argon2 = Argon2::default();
 
-    let password_hash = match argon2.hash_password(body.password.as_bytes(), &password_salt) {
-        Ok(hash) => hash,
-        Err(_) => {
-            return (
+    let password_hash = argon2
+        .hash_password(body.password.as_bytes(), &password_salt)
+        .map_err(|_| {
+            (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 Json(json!({"message": "Internal Server Error"})),
             )
-                .into_response();
-        }
-    };
+        })?;
 
     let utc_time = Utc::now();
 
@@ -128,20 +120,14 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
         created_at: Set(utc_time),
     };
 
-    let user = Users::Entity::insert(new_user.clone())
-        .exec(state.get_pool())
-        .await;
+    let user = new_user.clone().insert(state.get_pool()).await;
 
-    let new_user_as_model = match new_user.try_into_model() {
-        Ok(model) => model,
-        Err(_) => {
-            return (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})),
-            )
-                .into_response();
-        }
-    };
+    let new_user_as_model = new_user.try_into_model().map_err(|_| {
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({"message": "Internal Server Error"})),
+        )
+    })?;
 
     let mut hasher = Sha512::new();
 
@@ -162,33 +148,23 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
         created_at: Set(utc_time),
     };
 
-    let db_session = Sessions::Entity::insert(session.clone())
-        .exec(state.get_pool())
-        .await;
-
-    match db_session {
-        Ok(_) => {}
-        Err(e) => {
-            println!("{:?}", e);
-            return (
+    session
+        .clone()
+        .insert(state.get_pool())
+        .await
+        .map_err(|_| {
+            (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 Json(json!({"message": "Internal Server Error"})),
             )
-                .into_response();
-        }
-    };
+        })?;
 
-    let db_session_as_model = match session.try_into_model() {
-        Ok(model) => model,
-        Err(e) => {
-            println!("{:?}", e);
-            return (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})),
-            )
-                .into_response();
-        }
-    };
+    let db_session_as_model = session.try_into_model().map_err(|_| {
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({"message": "Internal Server Error"})),
+        )
+    })?;
 
     let response_session = ResponseSessionToken {
         id: db_session_as_model.id,
@@ -198,22 +174,17 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
     };
 
     match user {
-        Ok(_) => {
-            (
-                StatusCode::CREATED,
-                Json(ResponseBody {
-                    user: new_user_as_model,
-                    session: response_session,
-                }),
-            )
-                .into_response()
-        }
-        Err(_) => {
-            (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})),
-            )
-                .into_response()
-        }
+        Ok(_) => Ok((
+            StatusCode::CREATED,
+            Json(ResponseBody {
+                user: new_user_as_model,
+                session: response_session,
+            }),
+        )
+            .into_response()),
+        Err(_) => Err((
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({"message": "Internal Server Error"})),
+        )),
     }
 }
