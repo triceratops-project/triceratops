@@ -44,3 +44,4 @@ url = { version = "2.5.0", features = ["serde"] }
 tower-http = { version = "0.5.1", features = ["fs", "cors"] }
 tower = { version = "0.4.13", features = ["util"] }
 jsonwebtoken = "9.2.0"
+error-stack = { version = "0.4.1", features = ["spantrace", "serde"] }
