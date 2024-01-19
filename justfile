@@ -1,29 +1,9 @@
 default:
     just --list
 
-build-all:
-    cargo build --bin triceratops-server
-    cargo build --bin triceratops-daemon
-
+panel ARGS:
     pnpm install
-    pnpm --filter "@triceratops/panel" build
-
-build-panel:
-    pnpm install
-    pnpm --filter "@triceratops/panel" build
-
-build-daemon:
-    cargo build --bin triceratops-daemon
-
-build-server:
-    cargo build --bin triceratops-server
-
-build-release:
-    cargo build --bin triceratops-server --release
-    cargo build --bin triceratops-daemon --release
-
-bundle:
-    echo "cuh"
+    pnpm --filter "@triceratops/panel" build {{ARGS}}
 
 webserver ARGS:
     cargo run --bin triceratops-server -- {{ARGS}}
