@@ -1,5 +1,4 @@
-use mobc::Pool;
-use mobc_redis::{redis, RedisConnectionManager};
+use deadpool_redis::{Config as RedisConfig, Pool as RedisPool, Runtime};
 use oauth2::{
     basic::{BasicClient, BasicErrorResponseType, BasicTokenType},
     AuthUrl, Client, ClientId, ClientSecret, EmptyExtraTokenFields, RedirectUrl,
@@ -12,7 +11,7 @@ use url::Url;
 
 pub struct InternalAppState {
     pool: DatabaseConnection,
-    redis: Pool<RedisConnectionManager>,
+    redis: RedisPool,
     oauth: InternalOAuthProviders,
 }
 
@@ -48,16 +47,16 @@ impl InternalAppState {
 
         let redis_url = std::env::var("REDIS_URL").expect("REDIS_URL must be set");
 
-        let redis_connection = redis::Client::open(redis_url).expect("Failed to connect to redis");
+        let redis_config = RedisConfig::from_url(redis_url);
 
-        let redis_manager = RedisConnectionManager::new(redis_connection);
+        let redis = redis_config.create_pool(Some(Runtime::Tokio1)).unwrap();
 
-        let redis = Pool::builder()
-            .get_timeout(Some(Duration::from_secs(3)))
-            .max_lifetime(Some(Duration::from_secs(120)))
-            .max_open(100)
-            .max_idle(3)
-            .build(redis_manager);
+        // let redis = Pool::builder()
+        //     .get_timeout(Some(Duration::from_secs(3)))
+        //     .max_lifetime(Some(Duration::from_secs(120)))
+        //     .max_open(100)
+        //     .max_idle(3)
+        //     .build(redis_manager);
 
         let discord_oauth = BasicClient::new(
             ClientId::new("1022199052827381780".to_string()),
@@ -89,7 +88,7 @@ impl InternalAppState {
         &self.pool
     }
 
-    pub fn get_cache(&self) -> &Pool<RedisConnectionManager> {
+    pub fn get_cache(&self) -> &RedisPool {
         &self.redis
     }
 

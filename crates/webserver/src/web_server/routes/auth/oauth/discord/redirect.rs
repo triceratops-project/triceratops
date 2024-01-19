@@ -8,7 +8,7 @@ use axum::{
     Extension, Json,
 };
 use oauth2::{CsrfToken, PkceCodeChallenge, Scope};
-use redis::{AsyncCommands, SetExpiry, SetOptions};
+use redis::{SetExpiry, SetOptions, AsyncCommands};
 use serde_json::json;
 
 pub async fn handler(
