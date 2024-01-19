@@ -1,11 +1,11 @@
+pub use discord::Discord;
 use oauth2::{
-    basic::{BasicErrorResponseType, BasicTokenType}, Client, EmptyExtraTokenFields,
-    RevocationErrorResponseType, StandardErrorResponse, StandardRevocableToken,
-    StandardTokenIntrospectionResponse, StandardTokenResponse,
+    basic::{BasicErrorResponseType, BasicTokenType},
+    Client, EmptyExtraTokenFields, RevocationErrorResponseType, StandardErrorResponse,
+    StandardRevocableToken, StandardTokenIntrospectionResponse, StandardTokenResponse,
 };
 
 mod discord;
-pub use discord::Discord;
 
 pub type OAuthClient = Client<
     StandardErrorResponse<BasicErrorResponseType>,
