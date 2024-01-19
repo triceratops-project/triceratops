@@ -45,3 +45,5 @@ tower-http = { version = "0.5.1", features = ["fs", "cors"] }
 tower = { version = "0.4.13", features = ["util"] }
 jsonwebtoken = "9.2.0"
 error-stack = { version = "0.4.1", features = ["spantrace", "serde"] }
+tracing = { version = "0.1.40", features = ["async-await"] }
+tracing-subscriber = { version = "0.3.18", features = ["chrono", "serde"] }
