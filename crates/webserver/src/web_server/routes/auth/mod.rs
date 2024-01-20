@@ -9,7 +9,7 @@ mod logout;
 mod oauth;
 mod register;
 
-pub fn router(state: AppState) -> Router<AppState> {
+pub fn router(state: &AppState) -> Router<AppState> {
     
 
     Router::new()
@@ -19,7 +19,7 @@ pub fn router(state: AppState) -> Router<AppState> {
         )
         .route(
             "/logout",
-            post(logout::handler).layer(middleware::from_fn_with_state(state, Auth)),
+            post(logout::handler).layer(middleware::from_fn_with_state(state.clone(), Auth)),
         )
         .route(
             "/register",

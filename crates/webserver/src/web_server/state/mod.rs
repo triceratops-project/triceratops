@@ -1,9 +1,9 @@
 use database::Database;
 use deadpool_redis::Pool as RedisPool;
+use oauth::OAuthProviders;
 use redis::Cache;
 use sea_orm::DatabaseConnection;
 use std::sync::Arc;
-use oauth::OAuthProviders;
 
 mod database;
 mod oauth;
@@ -23,7 +23,7 @@ impl InternalAppState {
 
         let redis = Cache::new().await;
 
-        let oauth = OAuthProviders::new();
+        let oauth = OAuthProviders::default();
 
         Self { pool, redis, oauth }
     }

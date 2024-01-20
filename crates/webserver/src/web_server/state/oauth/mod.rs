@@ -21,13 +21,15 @@ pub struct OAuthProviders {
 }
 
 impl OAuthProviders {
-    pub fn new() -> Self {
-        OAuthProviders {
-            discord: Discord::new(),
-        }
-    }
-
     pub fn discord(&self) -> &OAuthClient {
         &self.discord
+    }
+}
+
+impl Default for OAuthProviders {
+    fn default() -> Self {
+        Self {
+            discord: Discord::new(),
+        }
     }
 }
