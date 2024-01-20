@@ -1,5 +1,3 @@
-use std::net::Ipv4Addr;
-
 use crate::web_server::state::AppState;
 use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
 use axum::{
@@ -8,7 +6,6 @@ use axum::{
     response::{IntoResponse, Response},
     Json,
 };
-
 use chrono::{DateTime, Utc};
 use rand_core::OsRng;
 use regex::Regex;
@@ -18,6 +15,7 @@ use sea_orm::{
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha512};
+use std::net::Ipv4Addr;
 use triceratops_server_entity::sessions as Sessions;
 use triceratops_server_entity::users as Users;
 use validator::Validate;
@@ -110,7 +108,6 @@ pub async fn handler(
 
     let new_user = Users::ActiveModel {
         id: Set(cuid2::create_id()),
-        external_id: Set(None),
         username: Set(body.username.trim().to_lowercase().to_owned()),
         email: Set(body.email.trim().to_lowercase().to_owned()),
         password: Set(Some(password_hash.to_string())),
@@ -129,13 +126,9 @@ pub async fn handler(
         )
     })?;
 
-    let mut hasher = Sha512::new();
-
     let session_token = cuid2::create_id();
 
-    hasher.update(session_token.as_bytes());
-
-    let session_token_hash = hasher.finalize();
+    let session_token_hash = Sha512::digest(&session_token);
 
     let hex_encoding = base16ct::lower::encode_string(&session_token_hash);
 

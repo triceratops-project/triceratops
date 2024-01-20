@@ -17,7 +17,6 @@ impl MigrationTrait for Migration {
                             .not_null()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Users::ExternalId).char_len(255).unique_key())
                     .col(
                         ColumnDef::new(Users::Username)
                             .string()
@@ -56,7 +55,6 @@ impl MigrationTrait for Migration {
 pub enum Users {
     Table,
     Id,
-    ExternalId,
     Username,
     Email,
     Password,
