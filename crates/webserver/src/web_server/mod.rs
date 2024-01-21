@@ -4,7 +4,6 @@ use tokio::net::TcpListener;
 
 mod middleware;
 mod routes;
-mod state;
 
 pub async fn start() {
     dotenv().ok();

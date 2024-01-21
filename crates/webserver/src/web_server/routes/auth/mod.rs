@@ -1,6 +1,6 @@
-use crate::web_server::{
-    middleware::{Auth, Guest},
+use crate::{
     state::AppState,
+    web_server::middleware::{Auth, Guest},
 };
 use axum::{middleware, routing::post, Router};
 
@@ -10,8 +10,6 @@ mod oauth;
 mod register;
 
 pub fn router(state: &AppState) -> Router<AppState> {
-    
-
     Router::new()
         .route(
             "/login",

@@ -7,7 +7,7 @@ use axum::{
 use sea_orm::EntityTrait;
 use triceratops_server_entity::sessions as Sessions;
 
-use crate::web_server::state::AppState;
+use crate::state::AppState;
 
 pub async fn handler(
     State(state): State<AppState>,

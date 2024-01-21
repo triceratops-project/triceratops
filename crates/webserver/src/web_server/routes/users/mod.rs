@@ -1,4 +1,4 @@
-use crate::web_server::{middleware::Auth, state::AppState};
+use crate::{state::AppState, web_server::middleware::Auth};
 use axum::{middleware, routing::get, Router};
 
 mod me;

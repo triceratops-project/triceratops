@@ -1,3 +1,4 @@
+use crate::state::AppState;
 use axum::{
     extract::{Request, State},
     http::StatusCode,
@@ -5,13 +6,14 @@ use axum::{
     response::Response,
     RequestPartsExt,
 };
-use axum_extra::{TypedHeader, headers::{Authorization, authorization::Bearer}};
+use axum_extra::{
+    headers::{authorization::Bearer, Authorization},
+    TypedHeader,
+};
 use chrono::Utc;
 use sea_orm::{EntityTrait, ModelTrait};
 use sha2::{Digest, Sha512};
 use triceratops_server_entity::{sessions as Sessions, users as Users};
-
-use crate::web_server::state::AppState;
 
 pub async fn auth(
     State(state): State<AppState>,

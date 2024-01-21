@@ -1,6 +1,6 @@
 use std::net::SocketAddr;
 
-use crate::web_server::state::AppState;
+use crate::state::AppState;
 use axum::{
     extract::{ConnectInfo, State},
     http::StatusCode,

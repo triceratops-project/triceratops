@@ -1,4 +1,6 @@
-use oauth2::{RevocationUrl, ClientId, basic::BasicClient, ClientSecret, AuthUrl, TokenUrl, RedirectUrl};
+use oauth2::{
+    basic::BasicClient, AuthUrl, ClientId, ClientSecret, RedirectUrl, RevocationUrl, TokenUrl,
+};
 use url::Url;
 
 pub struct Discord;

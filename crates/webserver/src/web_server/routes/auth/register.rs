@@ -1,4 +1,4 @@
-use crate::web_server::state::AppState;
+use crate::state::AppState;
 use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
 use axum::{
     extract::State,

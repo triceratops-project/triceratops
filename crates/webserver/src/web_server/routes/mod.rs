@@ -1,4 +1,4 @@
-use super::state::InternalAppState;
+use crate::state::InternalAppState;
 use axum::Router;
 use std::sync::Arc;
 

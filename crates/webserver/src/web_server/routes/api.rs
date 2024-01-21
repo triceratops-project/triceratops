@@ -1,5 +1,5 @@
 use super::{auth, servers, users};
-use crate::web_server::{middleware::RateLimit, state::AppState};
+use crate::{state::AppState, web_server::middleware::RateLimit};
 use axum::{
     http::StatusCode,
     middleware,

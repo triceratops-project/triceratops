@@ -15,7 +15,7 @@ use std::net::Ipv4Addr;
 use triceratops_server_entity::sessions as Sessions;
 use triceratops_server_entity::users as Users;
 
-use crate::web_server::state::AppState;
+use crate::state::AppState;
 
 #[derive(Deserialize)]
 pub struct RequestBody {

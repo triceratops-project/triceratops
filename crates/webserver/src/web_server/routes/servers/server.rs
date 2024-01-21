@@ -1,4 +1,4 @@
-use crate::web_server::state::AppState;
+use crate::state::AppState;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
@@ -27,8 +27,6 @@ pub async fn handler(Path(server_id): Path<String>, State(state): State<AppState
 
     match server {
         Some(server) => Json(server).into_response(),
-        None => {
-            (StatusCode::NOT_FOUND, Json(json!({"message": "Not Found"}))).into_response()
-        }
+        None => (StatusCode::NOT_FOUND, Json(json!({"message": "Not Found"}))).into_response(),
     }
 }
