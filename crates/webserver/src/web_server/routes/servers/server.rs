@@ -11,7 +11,7 @@ use triceratops_server_entity::servers as Servers;
 
 pub async fn handler(Path(server_id): Path<String>, State(state): State<AppState>) -> Response {
     let server = Servers::Entity::find_by_id(&server_id)
-        .one(state.get_pool())
+        .one(state.pool())
         .await;
 
     let server = match server {

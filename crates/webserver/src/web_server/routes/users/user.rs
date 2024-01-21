@@ -10,9 +10,7 @@ use serde_json::json;
 use triceratops_server_entity::users as Users;
 
 pub async fn handler(Path(user_id): Path<String>, State(state): State<AppState>) -> Response {
-    let user = Users::Entity::find_by_id(&user_id)
-        .one(state.get_pool())
-        .await;
+    let user = Users::Entity::find_by_id(&user_id).one(state.pool()).await;
 
     let user = match user {
         Ok(user) => user,

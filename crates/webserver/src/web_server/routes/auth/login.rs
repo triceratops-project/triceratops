@@ -60,7 +60,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
                 .add(Users::Column::Email.eq(body.username.trim().to_lowercase()))
                 .add(Users::Column::Username.eq(body.username.trim().to_lowercase())),
         )
-        .one(state.get_pool())
+        .one(state.pool())
         .await;
 
     let user = match users {
@@ -135,7 +135,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
 
     let user = Users::Entity::update(active_user)
         .filter(Users::Column::Id.eq(user_as_model.id.clone()))
-        .exec(state.get_pool())
+        .exec(state.pool())
         .await;
 
     match user {
@@ -171,7 +171,7 @@ pub async fn handler(State(state): State<AppState>, Json(body): Json<RequestBody
     };
 
     let db_session = Sessions::Entity::insert(session.clone())
-        .exec(state.get_pool())
+        .exec(state.pool())
         .await;
 
     match db_session {

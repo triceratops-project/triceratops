@@ -1,5 +1,6 @@
 use deadpool_redis::{Config as RedisConfig, Pool as RedisPool, Runtime};
 
+#[derive(Debug, Clone)]
 pub struct Cache;
 
 impl Cache {

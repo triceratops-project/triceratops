@@ -23,9 +23,9 @@ pub async fn handler(
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
     Json(body): Json<RequestQuery>,
 ) -> Response {
-    let oauth_provider = state.get_oauth().discord();
+    let oauth_provider = state.oauth().discord();
 
-    let mut redis_client = match state.get_cache().get().await {
+    let mut redis_client = match state.cache().get().await {
         Ok(client) => client,
         Err(_) => {
             return (

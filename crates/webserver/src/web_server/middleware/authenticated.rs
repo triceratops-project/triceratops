@@ -44,7 +44,7 @@ pub async fn auth(
     };
 
     let session = Sessions::Entity::find_by_id(session_id)
-        .one(state.get_pool())
+        .one(state.pool())
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
@@ -74,7 +74,7 @@ pub async fn auth(
 
     let user = session
         .find_related(Users::Entity)
-        .one(state.get_pool())
+        .one(state.pool())
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 

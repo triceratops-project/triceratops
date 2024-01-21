@@ -9,9 +9,10 @@ mod database;
 mod oauth;
 mod redis;
 
+#[derive(Clone)]
 pub struct InternalAppState {
     pool: DatabaseConnection,
-    redis: RedisPool,
+    cache: RedisPool,
     oauth: OAuthProviders,
 }
 
@@ -21,22 +22,22 @@ impl InternalAppState {
     pub async fn new() -> Self {
         let pool = Database::new().await;
 
-        let redis = Cache::new().await;
+        let cache = Cache::new().await;
 
         let oauth = OAuthProviders::default();
 
-        Self { pool, redis, oauth }
+        Self { pool, cache, oauth }
     }
 
-    pub fn get_pool(&self) -> &DatabaseConnection {
+    pub fn pool(&self) -> &DatabaseConnection {
         &self.pool
     }
 
-    pub fn get_cache(&self) -> &RedisPool {
-        &self.redis
+    pub fn cache(&self) -> &RedisPool {
+        &self.cache
     }
 
-    pub fn get_oauth(&self) -> &OAuthProviders {
+    pub fn oauth(&self) -> &OAuthProviders {
         &self.oauth
     }
 }

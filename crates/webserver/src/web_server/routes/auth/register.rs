@@ -76,7 +76,7 @@ pub async fn handler(
                 .add(Users::Column::Email.eq(body.email.trim()))
                 .add(Users::Column::Username.eq(body.username.trim())),
         )
-        .all(state.get_pool())
+        .all(state.pool())
         .await
         .map_err(|_| {
             (
@@ -117,7 +117,7 @@ pub async fn handler(
         created_at: Set(utc_time),
     };
 
-    let user = new_user.clone().insert(state.get_pool()).await;
+    let user = new_user.clone().insert(state.pool()).await;
 
     let new_user_as_model = new_user.try_into_model().map_err(|_| {
         (
@@ -141,16 +141,12 @@ pub async fn handler(
         created_at: Set(utc_time),
     };
 
-    session
-        .clone()
-        .insert(state.get_pool())
-        .await
-        .map_err(|_| {
-            (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})),
-            )
-        })?;
+    session.clone().insert(state.pool()).await.map_err(|_| {
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({"message": "Internal Server Error"})),
+        )
+    })?;
 
     let db_session_as_model = session.try_into_model().map_err(|_| {
         (

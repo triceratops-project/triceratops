@@ -15,7 +15,7 @@ pub async fn handler(
     State(state): State<AppState>,
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
 ) -> Response {
-    let oauth_provider = state.get_oauth().discord();
+    let oauth_provider = state.oauth().discord();
 
     let (pkce_challenge, pkce_verifier) = PkceCodeChallenge::new_random_sha256();
 
@@ -26,7 +26,7 @@ pub async fn handler(
         .set_pkce_challenge(pkce_challenge)
         .url();
 
-    let mut redis_client = match state.get_cache().get().await {
+    let mut redis_client = match state.cache().get().await {
         Ok(client) => client,
         Err(_) => {
             return (

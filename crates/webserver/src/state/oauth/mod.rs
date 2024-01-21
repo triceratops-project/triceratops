@@ -16,6 +16,7 @@ pub type OAuthClient = Client<
     StandardErrorResponse<RevocationErrorResponseType>,
 >;
 
+#[derive(Debug, Clone)]
 pub struct OAuthProviders {
     discord: OAuthClient,
 }

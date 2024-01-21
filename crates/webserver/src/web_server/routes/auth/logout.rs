@@ -14,7 +14,7 @@ pub async fn handler(
     Extension(session): Extension<Sessions::Model>,
 ) -> Response {
     let db_action = Sessions::Entity::delete_by_id(session.id)
-        .exec(state.get_pool())
+        .exec(state.pool())
         .await;
 
     match db_action {
