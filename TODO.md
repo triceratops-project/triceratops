@@ -1,0 +1,8 @@
+- [ ] Error handle internals
+- [ ] Error handle requests
+- [ ] Config parsing (bincode)
+- [ ] OAuth providers
+- [ ] Rewrite authentication (EC256 JWT)
+- [ ] Work out how to properly fetch front end data from API without using cookie auth for API routes. >:(
+- [ ] Request logging middleware
+- [ ] Request rate limiting
