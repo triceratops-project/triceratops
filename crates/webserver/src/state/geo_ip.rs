@@ -1,4 +1,4 @@
-use error_stack::Context;
+use error_stack::{Context, Report, Result, ResultExt};
 use flate2::read::GzDecoder;
 use maxminddb::Reader as MaxMindReader;
 use std::{
@@ -10,7 +10,7 @@ use std::{
 use tar::Archive;
 
 #[derive(Debug)]
-struct GeoIpError;
+pub struct GeoIpError;
 
 impl Display for GeoIpError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -27,21 +27,29 @@ static MAX_MIND_DB: &'static str = "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";
 pub struct GeoIp(MaxMindReader<Vec<u8>>);
 
 impl GeoIp {
-    pub async fn new() -> Self {
+    pub async fn new() -> Result<Option<Self>, GeoIpError> {
         let path = Path::new("./storage/GeoLite2-City.mmdb");
 
         if !path.exists() {
-            Self::download().await;
+            Self::download()
+                .await
+                .attach_printable("Failed to download MaxMindDB database")?;
         }
 
-        let buf = fs::read("./storage/GeoLite2-City.mmdb").unwrap();
+        let buf = fs::read("./storage/GeoLite2-City.mmdb")
+            .map_err(Report::from)
+            .attach_printable("Failed to read GeoLite2-City from ./storage/GeoLite2-City.mmdb")
+            .change_context(GeoIpError)?;
 
-        let a = MaxMindReader::from_source(buf).unwrap();
+        let a = MaxMindReader::from_source(buf)
+            .map_err(Report::from)
+            .attach_printable("Failed to parse MaxMindDB")
+            .change_context(GeoIpError)?;
 
-        Self(a)
+        Ok(Some(Self(a)))
     }
 
-    async fn download() {
+    async fn download() -> Result<(), GeoIpError> {
         let request_url = format!("https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={}&suffix=tar.gz", MAX_MIND_DB);
 
         let mm_db_bytes = reqwest::get(request_url)
@@ -77,6 +85,8 @@ impl GeoIp {
         }
 
         fs::remove_file("./storage/GeoLite2-City.tar.gz").unwrap();
+
+        Ok(())
     }
 
     pub fn database(&self) -> &MaxMindReader<Vec<u8>> {

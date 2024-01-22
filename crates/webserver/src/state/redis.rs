@@ -1,24 +1,47 @@
-use deadpool_redis::{Config as RedisConfig, Pool as RedisPool, Runtime};
+use std::{fmt::Display, time::Duration};
+
+use deadpool_redis::{Manager, Pool as RedisPool, Runtime, Timeouts};
+use error_stack::{Context, Report, Result, ResultExt};
+
+#[derive(Debug)]
+pub struct CacheError;
+
+impl Display for CacheError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("Cache module error")
+    }
+}
+
+impl Context for CacheError {}
 
 #[derive(Debug, Clone)]
 pub struct Cache;
 
 impl Cache {
-    pub async fn new() -> RedisPool {
-        let redis_url = std::env::var("REDIS_URL").expect("REDIS_URL must be set");
+    pub async fn new() -> Result<RedisPool, CacheError> {
+        let redis_url = std::env::var("REDIS_URL")
+            .map_err(Report::from)
+            .attach_printable("Failed to read variable REDIS_URL")
+            .change_context(CacheError)?;
 
-        let redis_config = RedisConfig::from_url(redis_url);
+        let manager = Manager::new(redis_url.to_owned())
+            .map_err(Report::from)
+            .attach_printable("Failed to build Redis pool manager")
+            .change_context(CacheError)?;
 
-        redis_config.create_pool(Some(Runtime::Tokio1)).unwrap()
+        let pool_builder = RedisPool::builder(manager)
+            .create_timeout(Some(Duration::from_secs(3)))
+            .wait_timeout(Some(Duration::from_secs(3)))
+            .recycle_timeout(Some(Duration::from_secs(120)))
+            .max_size(100)
+            .runtime(Runtime::Tokio1);
 
-        // We still need this config somehow
-        
-        // let redis = Pool::builder()
-        //     .get_timeout(Some(Duration::from_secs(3)))
-        //     .max_lifetime(Some(Duration::from_secs(120)))
-        //     .max_open(100)
-        //     .max_idle(3)
-        //     .build(redis_manager);
+        let pool = pool_builder
+            .build()
+            .map_err(Report::from)
+            .attach_printable("Failed to build Redis pool")
+            .change_context(CacheError)?;
 
+        Ok(pool)
     }
 }

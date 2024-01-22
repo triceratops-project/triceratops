@@ -1,15 +1,27 @@
 use self::geo_ip::GeoIp;
 use database::Database;
 use deadpool_redis::Pool as RedisPool;
+use error_stack::{Context, Report, Result, ResultExt};
 use oauth::OAuthProviders;
 use redis::Cache;
 use sea_orm::DatabaseConnection;
-use std::sync::Arc;
+use std::{fmt::Display, sync::Arc};
 
 mod database;
 mod geo_ip;
 mod oauth;
 mod redis;
+
+#[derive(Debug)]
+pub struct StateError;
+
+impl Display for StateError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("State error")
+    }
+}
+
+impl Context for StateError {}
 
 pub struct InternalAppState {
     pool: DatabaseConnection,
@@ -21,22 +33,33 @@ pub struct InternalAppState {
 pub type AppState = Arc<InternalAppState>;
 
 impl InternalAppState {
-    pub async fn new() -> Self {
-        let pool = Database::new().await;
+    pub async fn new() -> Result<Self, StateError> {
+        let pool = Database::new()
+            .await
+            .attach_printable("State cannot be built without database connection")
+            .change_context(StateError)?;
 
-        let cache = Cache::new().await;
+        let cache = Cache::new()
+            .await
+            .attach_printable("State cannot be built cache cache connection")
+            .change_context(StateError)?;
 
-        let oauth = OAuthProviders::default();
+        let oauth = OAuthProviders::new()
+            .map_err(Report::from)
+            .attach_printable("Failed to build OAuth clients")
+            .change_context(StateError)?;
 
-        let mm_db = GeoIp::new().await;
-        let mm_db = Some(mm_db);
+        let mm_db = GeoIp::new()
+            .await
+            .attach_printable("Failed to build GeoIp module")
+            .change_context(StateError)?;
 
-        Self {
+        Ok(Self {
             pool,
             cache,
             oauth,
             mm_db,
-        }
+        })
     }
 
     pub fn pool(&self) -> &DatabaseConnection {

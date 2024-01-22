@@ -23,7 +23,16 @@ pub async fn handler(
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
     Json(body): Json<RequestQuery>,
 ) -> Response {
-    let oauth_provider = state.oauth().discord();
+    let oauth_provider = match state.oauth().discord() {
+        Some(provider) => provider,
+        None => {
+            return (
+                StatusCode::FORBIDDEN,
+                Json(json!({"message": "Discord is not an enabled provider"})),
+            )
+                .into_response()
+        }
+    };
 
     let mut redis_client = match state.cache().get().await {
         Ok(client) => client,

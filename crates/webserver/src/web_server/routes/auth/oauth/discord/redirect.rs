@@ -15,7 +15,10 @@ pub async fn handler(
     State(state): State<AppState>,
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
 ) -> Response {
-    let oauth_provider = state.oauth().discord();
+    let oauth_provider = match state.oauth().discord() {
+        Some(provider) => provider,
+        None => return (StatusCode::FORBIDDEN, Json(json!({"message": "Discord is not an enabled provider"}))).into_response()
+    };
 
     let (pkce_challenge, pkce_verifier) = PkceCodeChallenge::new_random_sha256();
 
