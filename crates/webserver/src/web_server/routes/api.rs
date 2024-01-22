@@ -1,8 +1,5 @@
 use super::{auth, servers, users};
-use crate::{
-    state::AppState,
-    web_server::middleware::{RateLimit, RemoteAddressLayer},
-};
+use crate::{state::AppState, web_server::middleware::RateLimit};
 use axum::{
     http::StatusCode,
     middleware,
@@ -21,7 +18,6 @@ pub fn route(app_state: &AppState) -> Router<AppState> {
         .nest("/servers", servers::router(app_state))
         .nest("/users", users::router(app_state))
         .fallback(handle_404)
-        .layer(RemoteAddressLayer)
 }
 
 async fn handle_404() -> Response {

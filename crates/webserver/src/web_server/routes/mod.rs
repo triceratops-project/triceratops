@@ -25,6 +25,7 @@ pub async fn route() -> Result<Router, RouterError> {
         .await
         .attach_printable("Failed to assemble app state")
         .change_context(RouterError)?;
+
     let app_state = Arc::new(app_state_raw);
 
     let api_router = Router::new().nest("/api", api::route(&app_state));
