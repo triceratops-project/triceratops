@@ -7,3 +7,10 @@ members = [
     "crates/daemon",
 ]
 default-members = ["crates/webserver", "crates/daemon"]
+
+[profile.release]
+debug = false
+lto = true
+strip = true
+codegen-units = 1
+opt-level = 3
