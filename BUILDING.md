@@ -23,5 +23,5 @@ Run `just panel` to build the panel, this will output the built panel to `.apps/
 
 ## Building the backend
 
-Run `just build` to build the Rust backend, this might take a while to build depending on your hardware. The binary will be output to `./target/debug/triceratops-server`.
-
+Run `just webserver` to build the Rust backend, this might take a while to build depending on your hardware. The binary will be output to `./target/debug/triceratops-server`.
+]

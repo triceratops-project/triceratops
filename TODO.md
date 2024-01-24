@@ -6,3 +6,4 @@
 - [ ] Work out how to properly fetch front end data from API without using cookie auth for API routes. >:(
 - [ ] Request logging middleware
 - [ ] Request rate limiting
+- [ ] Logging Daemon (I don't want it in the main process, maybe use mongo, scyllia, or surreal.)
