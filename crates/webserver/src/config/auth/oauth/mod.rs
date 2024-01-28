@@ -26,7 +26,7 @@ pub struct OAuthProvidersConfig {
 impl Default for OAuthProvidersConfig {
     fn default() -> Self {
         Self {
-            custom: Default::default(),
+            custom: Some(CustomOAuthProviderConfig::default()),
             discord: Some(DiscordOAuthProviderConfig::default()),
             google: Default::default(),
             microsoft: Some(MicrosoftOAuthProviderConfig::default()),

@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
-#[serde(rename = "discord")]
 #[serde(rename_all = "kebab-case")]
 pub struct DiscordOAuthProviderConfig {
     client_id: String,

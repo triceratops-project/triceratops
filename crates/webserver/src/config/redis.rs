@@ -3,7 +3,6 @@ use std::net::{IpAddr, Ipv4Addr};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
-#[serde(rename = "redis")]
 pub struct RedisConfig {
     ip: IpAddr,
     port: u16,

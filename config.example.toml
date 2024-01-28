@@ -1,4 +1,4 @@
-[web_server]
+[web-server]
 bind-address = "0.0.0.0"
 port = 8080
 
@@ -12,6 +12,12 @@ username = "triceratops"
 ip = "127.0.0.1"
 port = 6379
 
+[auth.oauth.custom]
+client-id = "Password1"
+client-secret = "Password1"
+discovery-url = "https://example.com/.well-known/openid-configuration"
+scopes = ["openid", "profile", "email"]
+
 [auth.oauth.discord]
 client-id = "Password1"
 client-secret = "Password1"
@@ -24,4 +30,4 @@ tenant-id = "b32229b0-a29a-41ca-bf91-af2fe5182c5e"
 [auth.saml]
 sso_url = "https://example.com/"
 issuer = "ACME Corp"
-signing_certificate = "super secure cert"
+signing-certificate = "super secure cert"

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 
 #[derive(Debug, Deserialize, Serialize)]
-#[serde(rename = "saml")]
+#[serde(rename_all = "kebab-case")]
 pub struct SamlConfig {
     sso_url: Url,
     issuer: String,

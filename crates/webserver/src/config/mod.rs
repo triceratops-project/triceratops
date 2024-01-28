@@ -13,6 +13,7 @@ mod web_server;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
+    #[serde(rename = "web-server")]
     web_server: WebServerConfig,
     postgres: PostgresConfig,
     redis: RedisConfig,
