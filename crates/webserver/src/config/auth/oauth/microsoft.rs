@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename = "microsoft")]
+#[serde(rename_all = "kebab-case")]
 pub struct MicrosoftOAuthProviderConfig {
     client_id: String,
     client_secret: String,

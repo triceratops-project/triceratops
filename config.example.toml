@@ -13,13 +13,13 @@ ip = "127.0.0.1"
 port = 6379
 
 [auth.oauth.discord]
-client_id = "Password1"
-client_secret = "Password1"
+client-id = "Password1"
+client-secret = "Password1"
 
 [auth.oauth.microsoft]
-client_id = "Password1"
-client_secret = "Password1"
-tenant_id = "b32229b0-a29a-41ca-bf91-af2fe5182c5e"
+client-id = "Password1"
+client-secret = "Password1"
+tenant-id = "b32229b0-a29a-41ca-bf91-af2fe5182c5e"
 
 [auth.saml]
 sso_url = "https://example.com/"
