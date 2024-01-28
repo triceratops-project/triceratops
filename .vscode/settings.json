@@ -12,7 +12,8 @@
         "pkce",
         "precompress",
         "serde",
-        "Unauthorised"
+        "Unauthorised",
+        "Whmcs"
     ],
     "editor.tabSize": 4,
     "rust-analyzer.diagnostics.useRustcErrorCode": true

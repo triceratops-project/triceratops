@@ -2,6 +2,7 @@ use clap::Command;
 use error_stack::{Context, Result, ResultExt};
 use std::fmt;
 
+mod config;
 mod state;
 mod utils;
 mod web_server;
