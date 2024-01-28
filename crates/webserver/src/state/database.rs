@@ -1,3 +1,4 @@
+use crate::config::PostgresConfig;
 use error_stack::{Context, Report, Result, ResultExt};
 use sea_orm::{ConnectOptions, Database as SeaDatabase, DatabaseConnection};
 use std::{fmt, time::Duration};
@@ -16,11 +17,24 @@ impl Context for DatabaseError {}
 pub struct Database;
 
 impl Database {
-    pub async fn new() -> Result<DatabaseConnection, DatabaseError> {
-        let database_url = std::env::var("DATABASE_URL")
-            .map_err(Report::from)
-            .attach_printable("Failed to read variable DATABASE_URL")
-            .change_context(DatabaseError)?;
+    pub async fn new(config: &PostgresConfig) -> Result<DatabaseConnection, DatabaseError> {
+        let database_url = match config.password() {
+            Some(pass) => format!(
+                "postgres://{}:{}@{}:{}/{}",
+                config.username(),
+                pass,
+                config.ip(),
+                config.port(),
+                config.schema()
+            ),
+            None => format!(
+                "postgres://{}@{}:{}/{}",
+                config.username(),
+                config.ip(),
+                config.port(),
+                config.schema()
+            ),
+        };
 
         let mut opt = ConnectOptions::new(database_url);
         opt.max_connections(100)

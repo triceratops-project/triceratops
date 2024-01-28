@@ -1,3 +1,4 @@
+use crate::config::TriceratopsConfig;
 use database::Database;
 use deadpool_redis::Pool as RedisPool;
 use error_stack::{Context, Report, Result, ResultExt};
@@ -25,18 +26,19 @@ pub struct InternalAppState {
     pool: DatabaseConnection,
     cache: RedisPool,
     oauth: OAuthProviders,
+    config: TriceratopsConfig,
 }
 
 pub type AppState = Arc<InternalAppState>;
 
 impl InternalAppState {
-    pub async fn new() -> Result<Self, StateError> {
-        let pool = Database::new()
+    pub async fn new(config: TriceratopsConfig) -> Result<Self, StateError> {
+        let pool = Database::new(config.postgres())
             .await
             .attach_printable("State cannot be built without database connection")
             .change_context(StateError)?;
 
-        let cache = Cache::new()
+        let cache = Cache::new(config.redis())
             .await
             .attach_printable("State cannot be built cache cache connection")
             .change_context(StateError)?;
@@ -46,7 +48,12 @@ impl InternalAppState {
             .attach_printable("Failed to build OAuth clients")
             .change_context(StateError)?;
 
-        Ok(Self { pool, cache, oauth })
+        Ok(Self {
+            pool,
+            cache,
+            oauth,
+            config,
+        })
     }
 
     pub fn pool(&self) -> &DatabaseConnection {

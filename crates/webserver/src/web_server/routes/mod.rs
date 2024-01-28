@@ -1,4 +1,4 @@
-use crate::state::InternalAppState;
+use crate::{config::TriceratopsConfig, state::InternalAppState};
 use axum::Router;
 use error_stack::{Context, Result, ResultExt};
 use std::{fmt, sync::Arc};
@@ -20,8 +20,8 @@ impl fmt::Display for RouterError {
 
 impl Context for RouterError {}
 
-pub async fn route() -> Result<Router, RouterError> {
-    let app_state_raw = InternalAppState::new()
+pub async fn route(config: TriceratopsConfig) -> Result<Router, RouterError> {
+    let app_state_raw = InternalAppState::new(config.clone())
         .await
         .attach_printable("Failed to assemble app state")
         .change_context(RouterError)?;
@@ -32,8 +32,13 @@ pub async fn route() -> Result<Router, RouterError> {
 
     let spa_router = spa::router();
 
-    Ok(Router::new()
-        .merge(spa_router)
-        .merge(api_router)
-        .with_state(app_state))
+    let router = match *config.web_server().headless() {
+        Some(true) => Router::new().merge(api_router).with_state(app_state),
+        Some(false) | None => Router::new()
+            .merge(api_router)
+            .merge(spa_router)
+            .with_state(app_state),
+    };
+
+    Ok(router)
 }

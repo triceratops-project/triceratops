@@ -1,33 +1,20 @@
+version = 1
+
 [web-server]
+url = "https://panel.example.com/"
 bind-address = "0.0.0.0"
 port = 8080
+
+[debug]
+log-level = "info"
 
 [postgres]
 ip = "127.0.0.1"
 port = 5432
 schema = "triceratops"
-username = "triceratops"
+username = "triceratops_panel"
+password = "CHANGEME"
 
 [redis]
 ip = "127.0.0.1"
 port = 6379
-
-[auth.oauth.custom]
-client-id = "Password1"
-client-secret = "Password1"
-discovery-url = "https://example.com/.well-known/openid-configuration"
-scopes = ["openid", "profile", "email"]
-
-[auth.oauth.discord]
-client-id = "Password1"
-client-secret = "Password1"
-
-[auth.oauth.microsoft]
-client-id = "Password1"
-client-secret = "Password1"
-tenant-id = "b32229b0-a29a-41ca-bf91-af2fe5182c5e"
-
-[auth.saml]
-sso_url = "https://example.com/"
-issuer = "ACME Corp"
-signing-certificate = "super secure cert"

@@ -13,7 +13,7 @@ mod microsoft;
 mod okta;
 mod whmcs;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct OAuthProvidersConfig {
     custom: Option<CustomOAuthProviderConfig>,
     discord: Option<DiscordOAuthProviderConfig>,
@@ -21,17 +21,4 @@ pub struct OAuthProvidersConfig {
     microsoft: Option<MicrosoftOAuthProviderConfig>,
     okta: Option<OktaOAuthProviderConfig>,
     whmcs: Option<WhmcsOAuthProviderConfig>,
-}
-
-impl Default for OAuthProvidersConfig {
-    fn default() -> Self {
-        Self {
-            custom: Some(CustomOAuthProviderConfig::default()),
-            discord: Some(DiscordOAuthProviderConfig::default()),
-            google: Default::default(),
-            microsoft: Some(MicrosoftOAuthProviderConfig::default()),
-            okta: Default::default(),
-            whmcs: Default::default(),
-        }
-    }
 }

@@ -1,6 +1,6 @@
-- [ ] Error handle internals
+- [ x ] Error handle internals
 - [ ] Error handle requests
-- [ ] Config parsing (bincode)
+- [ x ] Config parsing (toml)
 - [ ] OAuth providers
 - [ ] Rewrite authentication (EC256 JWT)
 - [ ] Work out how to properly fetch front end data from API without using cookie auth for API routes. >:(

@@ -1,4 +1,4 @@
-use dotenvy::dotenv;
+use crate::config::TriceratopsConfig;
 use error_stack::{Context, Report, Result, ResultExt};
 use std::{fmt, net::SocketAddr};
 use tokio::net::TcpListener;
@@ -18,25 +18,17 @@ impl fmt::Display for WebServerError {
 impl Context for WebServerError {}
 
 pub async fn start() -> Result<(), WebServerError> {
-    if dotenv().is_err() {
-        println!("Failed to read .env");
-        println!(".env sucks and I'm making a binary format config");
-    }
-
-    let socket_port_env = std::env::var("PORT")
-        .map_err(Report::from)
-        .attach_printable("Failed to read variable PORT")
+    let config = TriceratopsConfig::load()
+        .attach_printable("Failed to load config")
         .change_context(WebServerError)?;
 
-    let socket_port = socket_port_env
-        .parse::<u16>()
-        .map_err(Report::from)
-        .attach_printable_lazy(|| format!("Failed to convert {} into port (u16)", socket_port_env))
-        .change_context(WebServerError)?;
+    let ip = *config.web_server().bind_address();
 
-    let socket_address = SocketAddr::from(([127, 0, 0, 1], socket_port));
+    let port = *config.web_server().port();
 
-    let router = routes::route()
+    let socket_address = SocketAddr::new(ip, port);
+
+    let router = routes::route(config)
         .await
         .attach_printable("Failed to build router")
         .change_context(WebServerError)?;
@@ -52,6 +44,7 @@ pub async fn start() -> Result<(), WebServerError> {
         listener,
         router.into_make_service_with_connect_info::<SocketAddr>(),
     )
+    // .with_graceful_shutdown(axum_shutdown())
     .await
     .map_err(Report::from)
     .attach_printable("Failed to build web server")

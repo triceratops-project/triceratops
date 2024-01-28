@@ -1,22 +1,24 @@
-use std::net::{IpAddr, Ipv4Addr};
+use std::net::IpAddr;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct RedisConfig {
     ip: IpAddr,
     port: u16,
     password: Option<String>,
 }
 
-impl Default for RedisConfig {
-    fn default() -> Self {
-        let ip = IpAddr::from(Ipv4Addr::new(127, 0, 0, 1));
-        
-        Self {
-            ip,
-            port: 6379,
-            password: None
-        }
+impl RedisConfig {
+    pub fn ip(&self) -> &IpAddr {
+        &self.ip
+    }
+
+    pub fn port(&self) -> &u16 {
+        &self.port
+    }
+
+    pub fn password(&self) -> &Option<String> {
+        &self.password
     }
 }

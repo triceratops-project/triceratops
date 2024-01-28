@@ -1,8 +1,7 @@
-use std::net::{IpAddr, Ipv4Addr};
-
 use serde::{Deserialize, Serialize};
+use std::net::IpAddr;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct PostgresConfig {
     ip: IpAddr,
     port: u16,
@@ -11,16 +10,24 @@ pub struct PostgresConfig {
     password: Option<String>,
 }
 
-impl Default for PostgresConfig {
-    fn default() -> Self {
-        let ip = IpAddr::from(Ipv4Addr::new(127, 0, 0, 1));
-        
-        Self {
-            ip,
-            port: 5432,
-            schema: "triceratops".to_string(),
-            username: "triceratops".to_string(),
-            password: None,
-        }
+impl PostgresConfig {
+    pub fn ip(&self) -> &IpAddr {
+        &self.ip
+    }
+
+    pub fn port(&self) -> &u16 {
+        &self.port
+    }
+
+    pub fn schema(&self) -> &String {
+        &self.schema
+    }
+
+    pub fn username(&self) -> &String {
+        &self.username
+    }
+
+    pub fn password(&self) -> &Option<String> {
+        &self.password
     }
 }

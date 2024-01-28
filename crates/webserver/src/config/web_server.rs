@@ -1,21 +1,31 @@
-use std::net::{IpAddr, Ipv4Addr};
+use std::net::IpAddr;
 
 use serde::{Deserialize, Serialize};
+use url::Url;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct WebServerConfig {
+    url: Url,
     bind_address: IpAddr,
     port: u16,
+    headless: Option<bool>,
 }
 
-impl Default for WebServerConfig {
-    fn default() -> Self {
-        let ip_v4 = Ipv4Addr::new(0, 0, 0, 0);
+impl WebServerConfig {
+    pub fn url(&self) -> &Url {
+        &self.url
+    }
 
-        Self {
-            port: 8080,
-            bind_address: IpAddr::from(ip_v4),
-        }
+    pub fn bind_address(&self) -> &IpAddr {
+        &self.bind_address
+    }
+
+    pub fn port(&self) -> &u16 {
+        &self.port
+    }
+
+    pub fn headless(&self) -> &Option<bool> {
+        &self.headless
     }
 }

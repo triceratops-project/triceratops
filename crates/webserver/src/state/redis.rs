@@ -2,6 +2,8 @@ use deadpool_redis::{Manager, Pool as RedisPool, Runtime};
 use error_stack::{Context, Report, Result, ResultExt};
 use std::{fmt, time::Duration};
 
+use crate::config::RedisConfig;
+
 #[derive(Debug)]
 pub struct CacheError;
 
@@ -17,13 +19,13 @@ impl Context for CacheError {}
 pub struct Cache;
 
 impl Cache {
-    pub async fn new() -> Result<RedisPool, CacheError> {
-        let redis_url = std::env::var("REDIS_URL")
-            .map_err(Report::from)
-            .attach_printable("Failed to read variable REDIS_URL")
-            .change_context(CacheError)?;
+    pub async fn new(config: &RedisConfig) -> Result<RedisPool, CacheError> {
+        let redis_url = match config.password() {
+            Some(pass) => format!("redis://:{}@{}:{}", pass, config.ip(), config.port()),
+            None => format!("redis://{}:{}", config.ip(), config.port()),
+        };
 
-        let manager = Manager::new(redis_url.to_owned())
+        let manager = Manager::new(redis_url)
             .map_err(Report::from)
             .attach_printable("Failed to build Redis pool manager")
             .change_context(CacheError)?;
