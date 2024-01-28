@@ -1,16 +1,15 @@
-use std::fmt::Display;
-
 use error_stack::{Context, Report, Result, ResultExt};
 use oauth2::{
     basic::BasicClient, AuthUrl, ClientId, ClientSecret, RedirectUrl, RevocationUrl, TokenUrl,
 };
+use std::fmt;
 use url::Url;
 
 #[derive(Debug)]
 pub struct DiscordOAuthError;
 
-impl Display for DiscordOAuthError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for DiscordOAuthError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("Error loading Discord OAuth Module")
     }
 }

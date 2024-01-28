@@ -1,7 +1,7 @@
 use crate::state::InternalAppState;
 use axum::Router;
 use error_stack::{Context, Result, ResultExt};
-use std::{fmt::Display, sync::Arc};
+use std::{fmt, sync::Arc};
 
 mod api;
 mod auth;
@@ -12,8 +12,8 @@ mod users;
 #[derive(Debug)]
 pub struct RouterError;
 
-impl Display for RouterError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for RouterError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("Router error")
     }
 }

@@ -1,6 +1,6 @@
 use dotenvy::dotenv;
 use error_stack::{Context, Report, Result, ResultExt};
-use std::{fmt::Display, net::SocketAddr};
+use std::{fmt, net::SocketAddr};
 use tokio::net::TcpListener;
 
 mod middleware;
@@ -9,8 +9,8 @@ mod routes;
 #[derive(Debug)]
 pub struct WebServerError;
 
-impl Display for WebServerError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for WebServerError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("Web server error")
     }
 }

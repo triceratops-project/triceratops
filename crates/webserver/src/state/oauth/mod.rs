@@ -1,11 +1,11 @@
 pub use discord::Discord;
-use error_stack::{Context, ResultExt, Result};
+use error_stack::{Context, Result, ResultExt};
 use oauth2::{
     basic::{BasicErrorResponseType, BasicTokenType},
     Client, EmptyExtraTokenFields, RevocationErrorResponseType, StandardErrorResponse,
     StandardRevocableToken, StandardTokenIntrospectionResponse, StandardTokenResponse,
 };
-use std::fmt::Display;
+use std::fmt;
 
 mod discord;
 
@@ -21,8 +21,8 @@ pub type OAuthClient = Client<
 #[derive(Debug)]
 pub struct OAuthError;
 
-impl Display for OAuthError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for OAuthError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("Error loading OAuth module")
     }
 }

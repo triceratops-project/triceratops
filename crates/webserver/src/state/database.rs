@@ -1,12 +1,12 @@
 use error_stack::{Context, Report, Result, ResultExt};
 use sea_orm::{ConnectOptions, Database as SeaDatabase, DatabaseConnection};
-use std::{fmt::Display, time::Duration};
+use std::{fmt, time::Duration};
 
 #[derive(Debug)]
 pub struct DatabaseError;
 
-impl Display for DatabaseError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for DatabaseError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("Database module error")
     }
 }

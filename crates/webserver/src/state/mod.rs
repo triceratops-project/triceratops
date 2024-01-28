@@ -4,7 +4,7 @@ use error_stack::{Context, Report, Result, ResultExt};
 use oauth::OAuthProviders;
 use redis::Cache;
 use sea_orm::DatabaseConnection;
-use std::{fmt::Display, sync::Arc};
+use std::{fmt, sync::Arc};
 
 mod database;
 mod oauth;
@@ -13,8 +13,8 @@ mod redis;
 #[derive(Debug)]
 pub struct StateError;
 
-impl Display for StateError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for StateError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("State error")
     }
 }
@@ -48,7 +48,7 @@ impl InternalAppState {
 
         Ok(Self { pool, cache, oauth })
     }
-    
+
     pub fn pool(&self) -> &DatabaseConnection {
         &self.pool
     }

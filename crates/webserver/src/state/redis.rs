@@ -1,13 +1,12 @@
-use std::{fmt::Display, time::Duration};
-
-use deadpool_redis::{Manager, Pool as RedisPool, Runtime, Timeouts};
+use deadpool_redis::{Manager, Pool as RedisPool, Runtime};
 use error_stack::{Context, Report, Result, ResultExt};
+use std::{fmt, time::Duration};
 
 #[derive(Debug)]
 pub struct CacheError;
 
-impl Display for CacheError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for CacheError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("Cache module error")
     }
 }

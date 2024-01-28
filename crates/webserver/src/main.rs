@@ -1,6 +1,6 @@
 use clap::Command;
 use error_stack::{Context, Result, ResultExt};
-use std::fmt::Display;
+use std::fmt;
 
 mod state;
 mod utils;
@@ -9,8 +9,8 @@ mod web_server;
 #[derive(Debug)]
 struct AppStartError;
 
-impl Display for AppStartError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for AppStartError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str("App start error")
     }
 }
