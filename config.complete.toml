@@ -2,7 +2,7 @@ version = 1
 
 [web-server]
 url = "http://localhost:8080/"
-bind-address = "0.0.0.0"
+bind-address = "127.0.0.1"
 port = 8080
 headless = false
 
@@ -14,12 +14,15 @@ ip = "127.0.0.1"
 port = 5432
 schema = "triceratops"
 username = "username"
-password = "password"
+password = "Password1"
 
 [redis]
 ip = "127.0.0.1"
 port = 6379
-password = "password"
+password = "Password1"
+
+[auth]
+jwt-secret = "Password1"
 
 [auth.oauth.custom]
 client-id = "Password1"
@@ -43,6 +46,7 @@ tenant-id = "b32229b0-a29a-41ca-bf91-af2fe5182c5e"
 [auth.oauth.okta]
 client-id = "Password1"
 client-secret = "Password1"
+sso-url = "https://acmecorp.okta.com/"
 
 [auth.oauth.whmcs]
 client-id = "Password1"

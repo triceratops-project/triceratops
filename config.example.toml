@@ -2,7 +2,7 @@ version = 1
 
 [web-server]
 url = "https://panel.example.com/"
-bind-address = "0.0.0.0"
+bind-address = "127.0.0.1"
 port = 8080
 
 [debug]
@@ -18,3 +18,6 @@ password = "CHANGEME"
 [redis]
 ip = "127.0.0.1"
 port = 6379
+
+[auth]
+jwt-secret = "CHANGEME"

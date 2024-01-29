@@ -1,3 +1,4 @@
+use crate::config::oauth::DiscordOAuthProviderConfig;
 use error_stack::{Context, Report, Result, ResultExt};
 use oauth2::{
     basic::BasicClient, AuthUrl, ClientId, ClientSecret, RedirectUrl, RevocationUrl, TokenUrl,
@@ -19,7 +20,13 @@ impl Context for DiscordOAuthError {}
 pub struct Discord;
 
 impl Discord {
-    pub fn new() -> Result<Option<super::OAuthClient>, DiscordOAuthError> {
+    pub fn new(
+        config: &DiscordOAuthProviderConfig,
+        base_url: &Url,
+    ) -> Result<super::OAuthClient, DiscordOAuthError> {
+        let mut redirect_url = base_url.clone();
+        redirect_url.set_path("/login/oauth/discord/callback");
+
         let auth_url = AuthUrl::new("https://discord.com/api/oauth2/authorize".to_string())
             .map_err(Report::from)
             .attach_printable("Failed to parse AuthUrl")
@@ -30,27 +37,20 @@ impl Discord {
             .attach_printable("Failed to parse TokenUrl")
             .change_context(DiscordOAuthError)?;
 
-        let redirect_url = Url::parse("http://localhost:8080/login/oauth/discord/callback")
-            .map_err(Report::from)
-            .attach_printable("Failed to parse Discord RedirectUrl")
-            .change_context(DiscordOAuthError)?;
-
         let revocation_url = Url::parse("https://discord.com/api/oauth2/token/revoke")
             .map_err(Report::from)
             .attach_printable("Failed to parse RevocationUrl")
             .change_context(DiscordOAuthError)?;
 
         let client = BasicClient::new(
-            ClientId::new("1022199052827381780".to_string()),
-            Some(ClientSecret::new(
-                "QIRiwF46OiUEfAkd14oJzKSRx8fdTipB".to_string(),
-            )),
+            ClientId::new(config.client_id().to_owned()),
+            Some(ClientSecret::new(config.client_secret().to_owned())),
             auth_url,
             Some(token_url),
         )
         .set_redirect_uri(RedirectUrl::from_url(redirect_url))
         .set_revocation_uri(RevocationUrl::from_url(revocation_url));
 
-        Ok(Some(client))
+        Ok(client)
     }
 }

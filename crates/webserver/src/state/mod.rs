@@ -43,7 +43,8 @@ impl InternalAppState {
             .attach_printable("State cannot be built cache cache connection")
             .change_context(StateError)?;
 
-        let oauth = OAuthProviders::new()
+        let oauth = OAuthProviders::new(config.auth().oauth(), config.web_server().url())
+            .await
             .map_err(Report::from)
             .attach_printable("Failed to build OAuth clients")
             .change_context(StateError)?;

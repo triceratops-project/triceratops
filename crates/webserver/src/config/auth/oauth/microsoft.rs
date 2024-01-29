@@ -8,3 +8,16 @@ pub struct MicrosoftOAuthProviderConfig {
     tenant_id: String,
 }
 
+impl MicrosoftOAuthProviderConfig {
+    pub fn client_id(&self) -> &String {
+        &self.client_id
+    }
+
+    pub fn client_secret(&self) -> &String {
+        &self.client_secret
+    }
+
+    pub fn tenant_id(&self) -> &String {
+        &self.tenant_id
+    }
+}

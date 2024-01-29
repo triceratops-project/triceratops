@@ -1,10 +1,10 @@
-use custom::CustomOAuthProviderConfig;
-use discord::DiscordOAuthProviderConfig;
-use google::GoogleOAuthProviderConfig;
-use microsoft::MicrosoftOAuthProviderConfig;
-use okta::OktaOAuthProviderConfig;
+pub use custom::CustomOAuthProviderConfig;
+pub use discord::DiscordOAuthProviderConfig;
+pub use google::GoogleOAuthProviderConfig;
+pub use microsoft::MicrosoftOAuthProviderConfig;
+pub use okta::OktaOAuthProviderConfig;
 use serde::{Deserialize, Serialize};
-use whmcs::WhmcsOAuthProviderConfig;
+pub use whmcs::WhmcsOAuthProviderConfig;
 
 mod custom;
 mod discord;
@@ -21,4 +21,30 @@ pub struct OAuthProvidersConfig {
     microsoft: Option<MicrosoftOAuthProviderConfig>,
     okta: Option<OktaOAuthProviderConfig>,
     whmcs: Option<WhmcsOAuthProviderConfig>,
+}
+
+impl OAuthProvidersConfig {
+    pub fn custom(&self) -> &Option<CustomOAuthProviderConfig> {
+        &self.custom
+    }
+
+    pub fn discord(&self) -> &Option<DiscordOAuthProviderConfig> {
+        &self.discord
+    }
+
+    pub fn google(&self) -> &Option<GoogleOAuthProviderConfig> {
+        &self.google
+    }
+
+    pub fn microsoft(&self) -> &Option<MicrosoftOAuthProviderConfig> {
+        &self.microsoft
+    }
+
+    pub fn okta(&self) -> &Option<OktaOAuthProviderConfig> {
+        &self.okta
+    }
+
+    pub fn whmcs(&self) -> &Option<WhmcsOAuthProviderConfig> {
+        &self.whmcs
+    }
 }
