@@ -3,13 +3,13 @@
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import {
         faDiscord,
-        faGithub,
         faGoogle,
         faMicrosoft,
+        faWhmcs,
         type IconDefinition,
     } from "@fortawesome/free-brands-svg-icons";
 
-    import { faUser } from "@fortawesome/pro-regular-svg-icons";
+    import { faCircleDashed, faUserShield } from "@fortawesome/pro-regular-svg-icons";
 
     import type { PageData } from "./$types";
 
@@ -17,10 +17,12 @@
     export let oauthProviders = data.oauthProviders;
 
     const logos: { [key: string]: IconDefinition } = {
-        faDiscord: faDiscord,
-        faGithub: faGithub,
-        faGoogle: faGoogle,
-        faMicrosoft: faMicrosoft,
+        custom: faUserShield,
+        discord: faDiscord,
+        google: faGoogle,
+        microsoft: faMicrosoft,
+        okta: faCircleDashed,
+        whmcs: faWhmcs
     };
 
     async function oauthRedirect(provider: string) {
@@ -107,10 +109,10 @@
                         class="flex justify-center items-center font-semibold h-10 mt-4 w-full appearance-none rounded-md bg-[#5865F2] hover:bg-[#6f78dc] transition cursor-pointer active:ring ring-[#5865F2]/40"
                         ><p>
                             <FontAwesomeIcon
-                                icon={logos[service.icon]}
+                                icon={logos[service.iden]}
                                 class="mr-1"
                             />
-                            {service.displayName}
+                            {service.name}
                         </p>
                     </button>
                 {/each}

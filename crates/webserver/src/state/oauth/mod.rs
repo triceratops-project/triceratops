@@ -36,20 +36,27 @@ impl Context for OAuthError {}
 
 #[derive(Debug, Clone)]
 pub struct OAuthProviders {
-    // custom: Option<OAuthClient>,
+    custom: Option<OAuthClient>,
     discord: Option<OAuthClient>,
-    // google: Option<OAuthClient>,
+    google: Option<OAuthClient>,
     microsoft: Option<OAuthClient>,
-    // okta: Option<OAuthClient>,
-    // whmcs: Option<OAuthClient>,
+    okta: Option<OAuthClient>,
+    whmcs: Option<OAuthClient>,
 }
 
 impl OAuthProviders {
-    pub async fn new(config: &Option<OAuthProvidersConfig>, base_url: &Url) -> Result<Self, OAuthError> {
+    pub async fn new(
+        config: &Option<OAuthProvidersConfig>,
+        base_url: &Url,
+    ) -> Result<Self, OAuthError> {
         let Some(config) = config else {
             return Ok(Self {
+                custom: None,
                 discord: None,
+                google: None,
                 microsoft: None,
+                okta: None,
+                whmcs: None,
             });
         };
 
@@ -69,7 +76,14 @@ impl OAuthProviders {
             None => None,
         };
 
-        Ok(Self { discord, microsoft })
+        Ok(Self {
+            custom: None,
+            discord,
+            google: None,
+            microsoft,
+            okta: None,
+            whmcs: None,
+        })
     }
 
     pub fn discord(&self) -> &Option<OAuthClient> {

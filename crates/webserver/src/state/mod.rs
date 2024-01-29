@@ -68,4 +68,8 @@ impl InternalAppState {
     pub fn oauth(&self) -> &OAuthProviders {
         &self.oauth
     }
+
+    pub fn config(&self) -> &TriceratopsConfig {
+        &self.config
+    }
 }
