@@ -92,6 +92,8 @@ pub async fn handler(
         ));
     }
 
+    todo!("Spawn Blocking the Argon shite to avoid blocking executor thread");
+
     let password_salt = SaltString::generate(&mut OsRng);
     let argon2 = Argon2::default();
 
