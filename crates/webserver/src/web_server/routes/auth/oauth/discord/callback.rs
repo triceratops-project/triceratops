@@ -1,16 +1,13 @@
-use std::net::SocketAddr;
-
-use crate::state::AppState;
+use crate::{state::AppState, web_server::error::ErrorResponse};
 use axum::{
     extract::{ConnectInfo, State},
-    http::StatusCode,
-    response::{IntoResponse, Response},
     Extension, Json,
 };
 use oauth2::{reqwest::async_http_client, AuthorizationCode, PkceCodeVerifier, TokenResponse};
 use redis::AsyncCommands;
 use serde::Deserialize;
-use serde_json::json;
+use serde_json::{json, Value};
+use std::net::SocketAddr;
 
 #[derive(Deserialize, Debug)]
 pub struct RequestQuery {
@@ -22,84 +19,55 @@ pub async fn handler(
     State(state): State<AppState>,
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
     Json(body): Json<RequestQuery>,
-) -> Response {
-    let oauth_provider = match state.oauth().discord() {
-        Some(provider) => provider,
-        None => {
-            return (
-                StatusCode::FORBIDDEN,
-                Json(json!({"message": "Discord is not an enabled provider"})),
-            )
-                .into_response()
-        }
-    };
+) -> Result<String, ErrorResponse<Json<Value>>> {
+    let oauth_provider = state
+        .oauth()
+        .discord()
+        .as_ref()
+        .ok_or(ErrorResponse::Forbidden(Json(
+            json!({"message": "Discord is not an enabled provider"}),
+        )))?;
 
-    let mut redis_client = match state.cache().get().await {
-        Ok(client) => client,
-        Err(_) => {
-            return (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})).into_response(),
-            )
-                .into_response()
-        }
-    };
+    let mut redis_client = state.cache().get().await.map_err(|_| {
+        ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
+    })?;
 
-    let csrf_token: String = match redis_client
+    let csrf_token: Option<String> = redis_client
         .get(format!("{}:discord:csrf_code", connection_info.ip()))
         .await
-    {
-        Ok(Some(code)) => code,
-        _ => {
-            return (
-                StatusCode::BAD_REQUEST,
-                Json(json!({"message": "Invalid or expired state"})).into_response(),
-            )
-                .into_response()
-        }
-    };
+        .map_err(|_| {
+            ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
+        })?;
+
+    let csrf_token = csrf_token.ok_or(ErrorResponse::BadRequest(Json(
+        json!({"message": "Authentication Timeout"}),
+    )))?;
 
     if body.state != csrf_token {
-        return (
-            StatusCode::BAD_REQUEST,
-            Json(json!({"message": "Invalid CSRF Token"})).into_response(),
-        )
-            .into_response();
+        return Err(ErrorResponse::BadRequest(Json(
+            json!({"message": "Invalid CSRF Token"}),
+        )));
     }
 
-    let pkce_verifier: String = match redis_client
+    let pkce_verifier: Option<String> = redis_client
         .get(format!("{}:discord:pkce_code", connection_info.ip()))
         .await
-    {
-        Ok(Some(code)) => code,
-        _ => {
-            return (
-                StatusCode::BAD_REQUEST,
-                Json(json!({"message": "Authentication Timeout"})).into_response(),
-            )
-                .into_response()
-        }
-    };
+        .map_err(|_| {
+            ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
+        })?;
 
-    let token_response = match oauth_provider
+    let pkce_verifier = pkce_verifier.ok_or(ErrorResponse::BadRequest(Json(
+        json!({"message": "Authentication Timeout"}),
+    )))?;
+
+    let token_response = oauth_provider
         .exchange_code(AuthorizationCode::new(body.code))
         .set_pkce_verifier(PkceCodeVerifier::new(pkce_verifier))
         .request_async(async_http_client)
         .await
-    {
-        Ok(response) => response,
-        Err(_) => {
-            return (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})).into_response(),
-            )
-                .into_response()
-        }
-    };
+        .map_err(|_| {
+            ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
+        })?;
 
-    token_response
-        .access_token()
-        .secret()
-        .clone()
-        .into_response()
+    Ok(token_response.access_token().secret().clone())
 }

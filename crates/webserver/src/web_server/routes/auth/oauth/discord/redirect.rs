@@ -1,24 +1,24 @@
-use std::net::SocketAddr;
-
-use crate::state::AppState;
+use crate::{state::AppState, web_server::error::ErrorResponse};
 use axum::{
     extract::{ConnectInfo, State},
-    http::StatusCode,
-    response::{IntoResponse, Response},
     Extension, Json,
 };
 use oauth2::{CsrfToken, PkceCodeChallenge, Scope};
 use redis::{AsyncCommands, SetExpiry, SetOptions};
-use serde_json::json;
+use serde_json::{json, Value};
+use std::net::SocketAddr;
 
 pub async fn handler(
     State(state): State<AppState>,
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
-) -> Response {
-    let oauth_provider = match state.oauth().discord() {
-        Some(provider) => provider,
-        None => return (StatusCode::FORBIDDEN, Json(json!({"message": "Discord is not an enabled provider"}))).into_response()
-    };
+) -> Result<Json<Value>, ErrorResponse<Json<Value>>> {
+    let oauth_provider = state
+        .oauth()
+        .discord()
+        .as_ref()
+        .ok_or(ErrorResponse::Forbidden(Json(
+            json!({"message": "Discord is not an enabled provider"}),
+        )))?;
 
     let (pkce_challenge, pkce_verifier) = PkceCodeChallenge::new_random_sha256();
 
@@ -29,53 +29,35 @@ pub async fn handler(
         .set_pkce_challenge(pkce_challenge)
         .url();
 
-    let mut redis_client = match state.cache().get().await {
-        Ok(client) => client,
-        Err(_) => {
-            return (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})).into_response(),
-            )
-                .into_response()
-        }
-    };
+    let mut redis_client = state.cache().get().await.map_err(|_| {
+        ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
+    })?;
 
     let redis_expiry = SetOptions::default().with_expiration(SetExpiry::EX(60));
 
-    if let Err(_) = redis_client
+    redis_client
         .set_options::<String, &String, ()>(
             format!("{}:discord:pkce_code", connection_info.ip()),
             pkce_verifier.secret(),
             redis_expiry,
         )
         .await
-    {
-        return (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(json!({"message": "Internal Server Error"})).into_response(),
-        )
-            .into_response();
-    }
+        .map_err(|_| {
+            ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
+        })?;
 
     let redis_expiry = SetOptions::default().with_expiration(SetExpiry::EX(60));
 
-    if let Err(_) = redis_client
+    redis_client
         .set_options::<String, &String, ()>(
             format!("{}:discord:csrf_code", connection_info.ip()),
             csrf_token.secret(),
             redis_expiry,
         )
         .await
-    {
-        return (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(json!({"message": "Internal Server Error"})).into_response(),
-        )
-            .into_response();
-    }
+        .map_err(|_| {
+            ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
+        })?;
 
-    Json(json!({
-        "url": auth_url.as_str()
-    }))
-    .into_response()
+    Ok(Json(json!({"url": auth_url})))
 }
