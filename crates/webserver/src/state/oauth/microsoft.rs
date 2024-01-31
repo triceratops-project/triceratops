@@ -41,7 +41,7 @@ impl Microsoft {
             .change_context(MicrosoftOAuthError)?;
 
         let mut redirect_url = base_url.clone();
-        redirect_url.set_path("/login/oauth/discord/callback");
+        redirect_url.set_path("/login/oauth/microsoft/callback");
 
         let auth_url = AuthUrl::new(oauth_metadata.authorization_endpoint.to_string())
             .map_err(Report::from)
