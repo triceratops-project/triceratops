@@ -3,6 +3,7 @@ use error_stack::{Context, Report, Result, ResultExt};
 use std::{fmt, net::SocketAddr};
 use tokio::net::TcpListener;
 
+mod error;
 mod middleware;
 mod routes;
 
