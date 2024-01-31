@@ -1,4 +1,4 @@
-use crate::{state::AppState, web_server::error::ErrorResponse};
+use crate::{state::AppState, web_server::{error::ErrorResponse, routes::auth::oauth::OAuthRedirectResponse}};
 use axum::{
     extract::{ConnectInfo, State},
     Extension, Json,
@@ -11,7 +11,7 @@ use std::net::SocketAddr;
 pub async fn handler(
     State(state): State<AppState>,
     Extension(ConnectInfo(connection_info)): Extension<ConnectInfo<SocketAddr>>,
-) -> Result<Json<Value>, ErrorResponse<Json<Value>>> {
+) -> Result<Json<OAuthRedirectResponse>, ErrorResponse<Json<Value>>> {
     let oauth_provider = state
         .oauth()
         .microsoft()
@@ -61,5 +61,5 @@ pub async fn handler(
             ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
         })?;
 
-    Ok(Json(json!({"url": auth_url})))
+    Ok(Json(OAuthRedirectResponse::new(auth_url)))
 }
