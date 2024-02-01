@@ -1,4 +1,4 @@
-use error::OpenIdConfigError;
+pub use error::OpenIdConfigError;
 use error_stack::{Report, Result, ResultExt};
 use reqwest::StatusCode;
 use serde::{Deserialize, Serialize};

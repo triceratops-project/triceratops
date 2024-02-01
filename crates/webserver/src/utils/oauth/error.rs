@@ -1,5 +1,4 @@
 use std::fmt;
-
 use error_stack::Context;
 
 #[derive(Debug)]
