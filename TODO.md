@@ -1,9 +1,0 @@
-- [ x ] Error handle internals
-- [ ] Error handle requests
-- [ x ] Config parsing (toml)
-- [ ] OAuth providers
-- [ ] Rewrite authentication (EC256 JWT)
-- [ ] Work out how to properly fetch front end data from API without using cookie auth for API routes. >:(
-- [ ] Request logging middleware
-- [ ] Request rate limiting
-- [ ] Logging Daemon (I don't want it in the main process, maybe use mongo, scyllia, or surreal.)
