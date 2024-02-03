@@ -1,5 +1,4 @@
 {
-    "rust-analyzer.showUnlinkedFileNotification": false,
     "cSpell.words": [
         "axum",
         "chrono",
@@ -8,14 +7,13 @@
         "fkey",
         "fontawesome",
         "fortawesome",
-        "mobc",
         "oidc",
         "pkce",
-        "precompress",
         "serde",
-        "Unauthorised",
-        "Whmcs"
+        "unauthorised",
+        "whmcs"
     ],
     "editor.tabSize": 4,
-    "rust-analyzer.diagnostics.useRustcErrorCode": true
+    "rust-analyzer.diagnostics.useRustcErrorCode": true,
+    "rust-analyzer.showUnlinkedFileNotification": false
 }
