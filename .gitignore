@@ -1,6 +1,6 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
-# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,svelte,rust,react,node,nextjs,macos,intellij+all,astro,jetbrains+all
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,svelte,rust,react,node,nextjs,macos,intellij+all,astro,jetbrains+all
+# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,svelte,rust,react,node,nextjs,macos,jetbrains+all,intellij+all,astro,turbo
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,svelte,rust,react,node,nextjs,macos,jetbrains+all,intellij+all,astro,turbo
 
 ### Astro ###
 # Gitignore template for Astro projects
@@ -198,7 +198,6 @@ Temporary Items
 
 # production
 /build
-
 # misc
 *.pem
 
@@ -389,6 +388,10 @@ Cargo.lock
 .svelte-kit/
 package
 
+### Turbo ###
+# Turborepo task cache
+.turbo
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -434,9 +437,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,svelte,rust,react,node,nextjs,macos,intellij+all,astro,jetbrains+all
+# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,svelte,rust,react,node,nextjs,macos,jetbrains+all,intellij+all,astro,turbo
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
 # Config File
 config.toml
+
+# Svelte Kit build
+build/

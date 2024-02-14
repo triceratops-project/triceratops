@@ -12,7 +12,7 @@ daemon ARGS:
     cargo run --bin triceratops-daemon -- {{ARGS}}
 
 build:
-    just panel
+    pnpm build
     cargo build --release --bin triceratops-server
 
 bundle:
