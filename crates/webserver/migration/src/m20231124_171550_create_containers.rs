@@ -9,10 +9,10 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Eggs::Table)
+                    .table(Containers::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Eggs::Id)
+                        ColumnDef::new(Containers::Id)
                             .char_len(24)
                             .not_null()
                             .primary_key(),
@@ -24,13 +24,13 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Eggs::Table).to_owned())
+            .drop_table(Table::drop().table(Containers::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-pub enum Eggs {
+pub enum Containers {
     Table,
     Id,
 }

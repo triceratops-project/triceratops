@@ -9,10 +9,10 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Nests::Table)
+                    .table(Collections::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Nests::Id)
+                        ColumnDef::new(Collections::Id)
                             .char_len(24)
                             .not_null()
                             .primary_key(),
@@ -24,13 +24,13 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Nests::Table).to_owned())
+            .drop_table(Table::drop().table(Collections::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-pub enum Nests {
+pub enum Collections {
     Table,
     Id,
 }

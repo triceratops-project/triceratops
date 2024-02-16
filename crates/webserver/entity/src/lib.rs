@@ -2,10 +2,10 @@
 
 pub mod prelude;
 
-mod connections;
-pub mod eggs;
+pub mod connections;
+pub mod containers;
 pub mod locations;
-pub mod nests;
+pub mod collections;
 pub mod nodes;
 pub mod servers;
 pub mod sessions;
