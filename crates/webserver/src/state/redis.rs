@@ -20,10 +20,12 @@ pub struct Cache;
 
 impl Cache {
     pub async fn new(config: &RedisConfig) -> Result<RedisPool, CacheError> {
-        let redis_url = match config.password() {
-            Some(pass) => format!("redis://:{}@{}:{}", pass, config.ip(), config.port()),
-            None => format!("redis://{}:{}", config.ip(), config.port()),
-        };
+        let redis_url = format!(
+            "redis://:{}@{}:{}",
+            config.password().as_ref().unwrap_or(&"".to_string()),
+            config.ip(),
+            config.port()
+        );
 
         let manager = Manager::new(redis_url)
             .map_err(Report::from)
