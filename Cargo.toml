@@ -1,16 +1,16 @@
 [workspace]
-resolver = "2"
+default-members = ["crates/daemon", "crates/webserver"]
 members = [
-    "crates/webserver",
-    "crates/webserver/migration",
-    "crates/webserver/entity",
     "crates/daemon",
+    "crates/webserver",
+    "crates/webserver/entity",
+    "crates/webserver/migration",
 ]
-default-members = ["crates/webserver", "crates/daemon"]
+resolver = "2"
 
 [profile.release]
-debug = false
-lto = true
-strip = true
 codegen-units = 1
-opt-level = 3
+debug         = false
+lto           = true
+opt-level     = 3
+strip         = true

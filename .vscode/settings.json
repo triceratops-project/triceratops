@@ -13,7 +13,11 @@
         "unauthorised",
         "whmcs"
     ],
-    "editor.tabSize": 4,
-    "rust-analyzer.diagnostics.useRustcErrorCode": true,
-    "rust-analyzer.showUnlinkedFileNotification": false
+	"editor.tabSize": 4,
+	"evenBetterToml.formatter.alignComments": true,
+	"evenBetterToml.formatter.alignEntries": true,
+	"evenBetterToml.formatter.reorderArrays": true,
+	"evenBetterToml.formatter.reorderKeys": true,
+	"rust-analyzer.diagnostics.useRustcErrorCode": true,
+	"rust-analyzer.showUnlinkedFileNotification": false
 }

@@ -1,51 +1,51 @@
 [package]
-name = "triceratops-server"
-version = "0.1.0"
 edition = "2021"
+name    = "triceratops-server"
+version = "0.1.0"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+triceratops-server-entity    = { path = "./entity" }
 triceratops-server-migration = { path = "./migration" }
-triceratops-server-entity = { path = "./entity" }
 
-axum = { version = "0.7.4", features = ["ws", "http2"] }
+argon2 = { version = "0.5", features = ["std", "zeroize"] }
+axum = { version = "0.7.4", features = ["http2", "ws"] }
 axum-extra = { version = "0.9.2", features = ["cookie", "typed-header"] }
-tower-http = { version = "0.5.1", features = ["fs", "cors"] }
-tower = { version = "0.4.13", features = ["util"] }
+base16ct = { version = "0.2.0", features = ["std"] }
+chrono = { version = "0.4", features = ["serde"] }
+clap = "4.4"
+cuid2 = "0.1"
+deadpool-redis = "0.14"
+error-stack = { version = "0.4.1", features = ["serde", "spantrace"] }
+hyper = "1.1.0"
+jsonwebtoken = "9.2.0"
+oauth2 = "4.4.2"
+pin-project = "1.1.4"
+rand = { version = "0.8", features = ["serde"] }
+rand_core = { version = "0.6", features = ["serde", "std"] }
+redis = { version = "0.24.0", features = ["connection-manager", "tokio-comp"] }
+regex = "1.10"
+reqwest = { version = "0.11", features = ["json", "rustls-tls-native-roots"] }
 sea-orm = { version = "0.12.11", features = [
-    "sqlx-postgres",
     "runtime-tokio-rustls",
+    "sqlx-postgres",
     "with-chrono",
 ] }
-redis = { version = "0.24.0", features = ["tokio-comp", "connection-manager"] }
-deadpool-redis = "0.14"
-tracing = { version = "0.1.40", features = ["async-await"] }
-tracing-subscriber = { version = "0.3.18", features = ["chrono", "serde"] }
-tokio = { version = "1.35", features = [
-    "sync",
-    "macros",
-    "rt-multi-thread",
-    "tracing",
-] }
-clap = "4.4"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-chrono = { version = "0.4", features = ["serde"] }
-regex = "1.10"
-validator = { version = "0.16", features = ["derive"] }
-rand = { version = "0.8", features = ["serde"] }
-rand_core = { version = "0.6", features = ["std", "serde"] }
-cuid2 = "0.1"
-argon2 = { version = "0.5", features = ["std", "zeroize"] }
 sha2 = "0.10"
-base16ct = { version = "0.2.0", features = ["std"] }
-jsonwebtoken = "9.2.0"
-reqwest = { version = "0.11", features = ["json", "rustls-tls-native-roots"] }
-oauth2 = "4.4.2"
-url = { version = "2.5.0", features = ["serde"] }
-error-stack = { version = "0.4.1", features = ["spantrace", "serde"] }
-hyper = "1.1.0"
-pin-project = "1.1.4"
+tokio = { version = "1.35", features = [
+    "macros",
+    "rt-multi-thread",
+    "sync",
+    "tracing",
+] }
 toml = "0.8.8"
+tower = { version = "0.4.13", features = ["util"] }
+tower-http = { version = "0.5.1", features = ["cors", "fs"] }
+tracing = { version = "0.1.40", features = ["async-await"] }
+tracing-subscriber = { version = "0.3.18", features = ["chrono", "serde"] }
+url = { version = "2.5.0", features = ["serde"] }
+validator = { version = "0.16", features = ["derive"] }
