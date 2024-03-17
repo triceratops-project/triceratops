@@ -18,6 +18,5 @@
 	"evenBetterToml.formatter.alignEntries": true,
 	"evenBetterToml.formatter.reorderArrays": true,
 	"evenBetterToml.formatter.reorderKeys": true,
-	"rust-analyzer.diagnostics.useRustcErrorCode": true,
 	"rust-analyzer.showUnlinkedFileNotification": false
 }

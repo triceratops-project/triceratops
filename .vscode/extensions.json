@@ -8,8 +8,6 @@
         "serayuzgur.crates",
         "ms-azuretools.vscode-docker",
         "tamasfe.even-better-toml",
-        "wcrichton.flowistry",
-        "dustypomerleau.rust-syntax",
         "rust-lang.rust-analyzer",
         "svelte.svelte-vscode",
         "bradlc.vscode-tailwindcss",
