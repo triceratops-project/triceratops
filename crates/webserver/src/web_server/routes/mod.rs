@@ -32,7 +32,7 @@ pub async fn route(config: TriceratopsConfig) -> Result<Router, RouterError> {
 
     let spa_router = spa::router();
 
-    let router = match *config.web_server().headless() {
+    let router = match *config.web_server.headless() {
         Some(true) => Router::new().merge(api_router).with_state(app_state),
         Some(false) | None => Router::new()
             .merge(api_router)

@@ -23,9 +23,9 @@ pub async fn start() -> Result<(), WebServerError> {
         .attach_printable("Failed to load config")
         .change_context(WebServerError)?;
 
-    let ip = *config.web_server().bind_address();
+    let ip = *config.web_server.bind_address();
 
-    let port = *config.web_server().port();
+    let port = *config.web_server.port();
 
     let socket_address = SocketAddr::new(ip, port);
 

@@ -33,17 +33,17 @@ pub type AppState = Arc<InternalAppState>;
 
 impl InternalAppState {
     pub async fn new(config: TriceratopsConfig) -> Result<Self, StateError> {
-        let pool = Database::new(config.postgres())
+        let pool = Database::new(&config.postgres)
             .await
             .attach_printable("State cannot be built without database connection")
             .change_context(StateError)?;
 
-        let cache = Cache::new(config.redis())
+        let cache = Cache::new(&config.redis)
             .await
             .attach_printable("State cannot be built cache cache connection")
             .change_context(StateError)?;
 
-        let oauth = OAuthProviders::new(config.auth().oauth(), config.web_server().url())
+        let oauth = OAuthProviders::new(config.auth.oauth(), config.web_server.url())
             .await
             .map_err(Report::from)
             .attach_printable("Failed to build OAuth clients")

@@ -23,7 +23,7 @@ impl OAuthService {
 }
 
 pub async fn handler(State(state): State<AppState>) -> Json<ResponseBody> {
-    let Some(oauth_config) = state.config().auth().oauth() else {
+    let Some(oauth_config) = state.config().auth.oauth() else {
         return Json(ResponseBody { services: vec![] });
     };
 

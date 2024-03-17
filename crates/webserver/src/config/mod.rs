@@ -32,11 +32,11 @@ impl Context for ConfigError {}
 pub struct TriceratopsConfig {
     version: u8,
     #[serde(rename = "web-server")]
-    web_server: WebServerConfig,
-    debug: DebugConfig,
-    postgres: PostgresConfig,
-    redis: RedisConfig,
-    auth: AuthConfig,
+    pub web_server: WebServerConfig,
+    pub debug: DebugConfig,
+    pub postgres: PostgresConfig,
+    pub redis: RedisConfig,
+    pub auth: AuthConfig,
 }
 
 impl TriceratopsConfig {
@@ -71,25 +71,5 @@ impl TriceratopsConfig {
         }
 
         Ok(config)
-    }
-
-    pub fn web_server(&self) -> &WebServerConfig {
-        &self.web_server
-    }
-
-    pub fn debug(&self) -> &DebugConfig {
-        &self.debug
-    }
-
-    pub fn postgres(&self) -> &PostgresConfig {
-        &self.postgres
-    }
-
-    pub fn redis(&self) -> &RedisConfig {
-        &self.redis
-    }
-
-    pub fn auth(&self) -> &AuthConfig {
-        &self.auth
     }
 }
