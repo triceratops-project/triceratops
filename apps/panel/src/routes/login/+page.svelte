@@ -9,7 +9,7 @@
         type IconDefinition,
     } from "@fortawesome/free-brands-svg-icons";
 
-    import { faCircleDashed, faUserShield } from "@fortawesome/pro-regular-svg-icons";
+    import { faCircleDashed, faUserShield } from "@fortawesome/pro-solid-svg-icons";
 
     import type { PageData } from "./$types";
 
