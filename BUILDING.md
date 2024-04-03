@@ -3,11 +3,12 @@ Triceratops is written in a mix of languages, primarily Rust and TypeScript.
 
 As such you are going to need the following installed:
 - [Rust](https://www.rust-lang.org/)
-- [Node](https://nodejs.org/) (LTS recommended)
+- [Bun](https://bun.sh/)
 
 
 We also use a build system called [Just](https://just.systems/), kinda like make or cmake just a tonne simpler.
 
+# TODO: REWRITE THIS CRAP!!! IT'S MISSING SO MUCH IMPORTANT DETAIL!
 ---
 
 # Building
