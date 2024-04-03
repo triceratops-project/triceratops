@@ -1,10 +1,10 @@
 {
-    "scripts": {
-        "build": "turbo run build"
-    },
-    "devDependencies": {
-        "@biomejs/biome": "1.5.3",
-        "turbo": "^1.12.3"
-    },
-    "workspaces": ["apps/*", "packages/*"]
+  "scripts": {
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "turbo": "^1.12.3"
+  },
+  "workspaces": ["apps/*", "packages/*"]
 }

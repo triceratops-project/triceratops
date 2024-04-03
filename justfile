@@ -2,7 +2,7 @@ default:
     just --list
 
 panel ARGS="":
-    pnpm install
+    bun install
     pnpm --filter "@triceratops/panel" build {{ARGS}}
 
 webserver ARGS="start":
@@ -12,7 +12,7 @@ daemon ARGS:
     cargo run --bin triceratops-daemon -- {{ARGS}}
 
 build:
-    pnpm build
+    bun run build
     cargo build --release --bin triceratops-server
 
 bundle:
