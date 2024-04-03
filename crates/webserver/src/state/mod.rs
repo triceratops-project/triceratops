@@ -1,7 +1,7 @@
 use crate::config::TriceratopsConfig;
 use database::Database;
-use deadpool_redis::Pool as RedisPool;
 use error_stack::{Context, Report, Result, ResultExt};
+use fred::clients::RedisClient;
 use oauth::OAuthProviders;
 use redis::Cache;
 use sea_orm::DatabaseConnection;
@@ -24,7 +24,7 @@ impl Context for StateError {}
 
 pub struct InternalAppState {
     pool: DatabaseConnection,
-    cache: RedisPool,
+    cache: RedisClient,
     oauth: OAuthProviders,
     config: TriceratopsConfig,
 }
@@ -61,7 +61,7 @@ impl InternalAppState {
         &self.pool
     }
 
-    pub fn cache(&self) -> &RedisPool {
+    pub fn cache(&self) -> &RedisClient {
         &self.cache
     }
 

@@ -3,8 +3,8 @@ use axum::{
     extract::{ConnectInfo, State},
     Extension, Json,
 };
+use fred::interfaces::KeysInterface;
 use oauth2::{reqwest::async_http_client, AuthorizationCode, PkceCodeVerifier, TokenResponse};
-use redis::AsyncCommands;
 use serde::Deserialize;
 use serde_json::{json, Value};
 use std::net::SocketAddr;
@@ -28,9 +28,7 @@ pub async fn handler(
             json!({"message": "Discord is not an enabled provider"}),
         )))?;
 
-    let mut redis_client = state.cache().get().await.map_err(|_| {
-        ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
-    })?;
+    let redis_client = state.cache();
 
     let csrf_token: Option<String> = redis_client
         .get(format!("{}:discord:csrf_code", connection_info.ip()))

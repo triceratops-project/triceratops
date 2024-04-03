@@ -1,10 +1,13 @@
-use crate::{state::AppState, web_server::{error::ErrorResponse, routes::auth::oauth::OAuthRedirectResponse}};
+use crate::{
+    state::AppState,
+    web_server::{error::ErrorResponse, routes::auth::oauth::OAuthRedirectResponse},
+};
 use axum::{
     extract::{ConnectInfo, State},
     Extension, Json,
 };
+use fred::{interfaces::KeysInterface, types::Expiration};
 use oauth2::{CsrfToken, PkceCodeChallenge, Scope};
-use redis::{AsyncCommands, SetExpiry, SetOptions};
 use serde_json::{json, Value};
 use std::net::SocketAddr;
 
@@ -20,10 +23,7 @@ pub async fn handler(
             json!({"message": "Microsoft is not an enabled provider"}),
         )))?;
 
-    let mut redis_client = state.cache().get().await.map_err(|_| {
-        ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
-    })?;
-
+    let redis_client = state.cache();
     let (pkce_challenge, pkce_verifier) = PkceCodeChallenge::new_random_sha256();
 
     let (auth_url, csrf_token) = oauth_provider
@@ -35,26 +35,30 @@ pub async fn handler(
         .set_pkce_challenge(pkce_challenge)
         .url();
 
-    let redis_expiry = SetOptions::default().with_expiration(SetExpiry::EX(60));
+    let redis_expiry = Expiration::EX(60);
 
     redis_client
-        .set_options::<String, &String, ()>(
+        .set(
             format!("{}:microsoft:pkce_code", connection_info.ip()),
             pkce_verifier.secret(),
-            redis_expiry,
+            Some(redis_expiry),
+            None,
+            false,
         )
         .await
         .map_err(|_| {
             ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
         })?;
 
-    let redis_expiry = SetOptions::default().with_expiration(SetExpiry::EX(60));
+    let redis_expiry = Expiration::EX(60);
 
     redis_client
-        .set_options::<String, &String, ()>(
+        .set(
             format!("{}:microsoft:csrf_code", connection_info.ip()),
             csrf_token.secret(),
-            redis_expiry,
+            Some(redis_expiry),
+            None,
+            false,
         )
         .await
         .map_err(|_| {

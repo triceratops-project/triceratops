@@ -1,6 +1,10 @@
-use deadpool_redis::{Manager, Pool as RedisPool, Runtime};
-use error_stack::{Context, Report, Result, ResultExt};
-use std::{fmt, time::Duration};
+use error_stack::{Context, Result, ResultExt};
+use fred::{
+    clients::RedisClient,
+    interfaces::ClientLike,
+    types::{Builder, RedisConfig as FredConfig},
+};
+use std::fmt;
 
 use crate::config::RedisConfig;
 
@@ -19,7 +23,7 @@ impl Context for CacheError {}
 pub struct Cache;
 
 impl Cache {
-    pub async fn new(config: &RedisConfig) -> Result<RedisPool, CacheError> {
+    pub async fn new(config: &RedisConfig) -> Result<RedisClient, CacheError> {
         let redis_url = format!(
             "redis://:{}@{}:{}",
             config.password().as_ref().unwrap_or(&"".to_string()),
@@ -27,24 +31,21 @@ impl Cache {
             config.port()
         );
 
-        let manager = Manager::new(redis_url)
-            .map_err(Report::from)
-            .attach_printable("Failed to build Redis pool manager")
+        let config = FredConfig::from_url(redis_url.as_str())
+            .attach_printable("Failed to make redis config.")
             .change_context(CacheError)?;
 
-        let pool_builder = RedisPool::builder(manager)
-            .create_timeout(Some(Duration::from_secs(3)))
-            .wait_timeout(Some(Duration::from_secs(3)))
-            .recycle_timeout(Some(Duration::from_secs(120)))
-            .max_size(100)
-            .runtime(Runtime::Tokio1);
-
-        let pool = pool_builder
+        let client = Builder::from_config(config)
             .build()
-            .map_err(Report::from)
-            .attach_printable("Failed to build Redis pool")
+            .attach_printable("Failed to build redis client.")
             .change_context(CacheError)?;
 
-        Ok(pool)
+        client
+            .init()
+            .await
+            .attach_printable("Failed to initialize redis client.")
+            .change_context(CacheError)?;
+
+        Ok(client)
     }
 }
