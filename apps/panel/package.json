@@ -13,8 +13,6 @@
     "devDependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.1.1",
         "@fortawesome/free-brands-svg-icons": "^6.5.1",
-        "@fortawesome/pro-duotone-svg-icons": "^6.5.1",
-        "@fortawesome/pro-regular-svg-icons": "^6.5.1",
         "@fortawesome/pro-solid-svg-icons": "^6.5.1",
         "@fortawesome/svelte-fontawesome": "^0.2.0",
         "@sveltejs/adapter-auto": "^3.0.0",
