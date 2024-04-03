@@ -35,7 +35,7 @@ pub async fn handler(
         .set_pkce_challenge(pkce_challenge)
         .url();
 
-    let redis_expiry = Expiration::EX(60);
+    let redis_expiry = Expiration::EX(state.config().redis.expiry().clone());
 
     redis_client
         .set(
@@ -50,7 +50,7 @@ pub async fn handler(
             ErrorResponse::InternalServerError(Json(json!({"message": "Internal Server Error"})))
         })?;
 
-    let redis_expiry = Expiration::EX(60);
+    let redis_expiry = Expiration::EX(state.config().redis.expiry().clone());
 
     redis_client
         .set(

@@ -1,6 +1,6 @@
 use error_stack::{Context, Result, ResultExt};
 use fred::{
-    clients::RedisClient,
+    clients::RedisPool,
     interfaces::ClientLike,
     types::{Builder, RedisConfig as FredConfig},
 };
@@ -23,7 +23,7 @@ impl Context for CacheError {}
 pub struct Cache;
 
 impl Cache {
-    pub async fn new(config: &RedisConfig) -> Result<RedisClient, CacheError> {
+    pub async fn new(config: &RedisConfig) -> Result<RedisPool, CacheError> {
         let redis_url = format!(
             "redis://:{}@{}:{}",
             config.password().as_ref().unwrap_or(&"".to_string()),
@@ -31,12 +31,12 @@ impl Cache {
             config.port()
         );
 
-        let config = FredConfig::from_url(redis_url.as_str())
+        let fred_config = FredConfig::from_url(redis_url.as_str())
             .attach_printable("Failed to make redis config.")
             .change_context(CacheError)?;
 
-        let client = Builder::from_config(config)
-            .build()
+        let client = Builder::from_config(fred_config)
+            .build_pool(config.max_connections().clone())
             .attach_printable("Failed to build redis client.")
             .change_context(CacheError)?;
 

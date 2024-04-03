@@ -17,7 +17,6 @@ base16ct = { workspace = true, features = ["std"] }
 chrono = { workspace = true, features = ["serde"] }
 clap = { workspace = true }
 cuid2 = { workspace = true }
-deadpool-redis = "0.14" # REMOVE IN FAVOUR OF FRED #14
 error-stack = { workspace = true, features = ["serde", "spantrace"] }
 fred = { workspace = true, features = ["enable-native-tls", "enable-rustls"] }
 hyper = { workspace = true }
@@ -26,10 +25,6 @@ oauth2 = { workspace = true }
 pin-project = { workspace = true }
 rand = { workspace = true, features = ["serde"] }
 rand_core = { workspace = true, features = ["serde", "std"] }
-redis = { version = "0.24.0", features = [
-    "connection-manager",
-    "tokio-comp",
-] } # REMOVE IN FAVOUR OF FRED #14
 regex = { workspace = true }
 reqwest = { workspace = true, features = ["json", "rustls-tls-native-roots"] }
 sea-orm = { workspace = true, features = [
