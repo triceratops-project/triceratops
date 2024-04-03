@@ -10,42 +10,46 @@ version = "0.1.0"
 triceratops-server-entity    = { path = "./entity" }
 triceratops-server-migration = { path = "./migration" }
 
-argon2 = { version = "0.5", features = ["std", "zeroize"] }
-axum = { version = "0.7.4", features = ["http2", "ws"] }
-axum-extra = { version = "0.9.2", features = ["cookie", "typed-header"] }
-base16ct = { version = "0.2.0", features = ["std"] }
-chrono = { version = "0.4", features = ["serde"] }
-clap = "4.4"
-cuid2 = "0.1"
-deadpool-redis = "0.14"
-error-stack = { version = "0.4.1", features = ["serde", "spantrace"] }
-hyper = "1.1.0"
-jsonwebtoken = "9.2.0"
-oauth2 = "4.4.2"
-pin-project = "1.1.4"
-rand = { version = "0.8", features = ["serde"] }
-rand_core = { version = "0.6", features = ["serde", "std"] }
-redis = { version = "0.24.0", features = ["connection-manager", "tokio-comp"] }
-regex = "1.10"
-reqwest = { version = "0.11", features = ["json", "rustls-tls-native-roots"] }
-sea-orm = { version = "0.12.11", features = [
+argon2 = { workspace = true, features = ["std", "zeroize"] }
+axum = { workspace = true, features = ["http2", "ws"] }
+axum-extra = { workspace = true, features = ["cookie", "typed-header"] }
+base16ct = { workspace = true, features = ["std"] }
+chrono = { workspace = true, features = ["serde"] }
+clap = { workspace = true }
+cuid2 = { workspace = true }
+deadpool-redis = "0.14" # REMOVE IN FAVOUR OF FRED #14
+error-stack = { workspace = true, features = ["serde", "spantrace"] }
+fred = { workspace = true, features = ["enable-native-tls", "enable-rustls"] }
+hyper = { workspace = true }
+jsonwebtoken = { workspace = true }
+oauth2 = { workspace = true }
+pin-project = { workspace = true }
+rand = { workspace = true, features = ["serde"] }
+rand_core = { workspace = true, features = ["serde", "std"] }
+redis = { version = "0.24.0", features = [
+    "connection-manager",
+    "tokio-comp",
+] } # REMOVE IN FAVOUR OF FRED #14
+regex = { workspace = true }
+reqwest = { workspace = true, features = ["json", "rustls-tls-native-roots"] }
+sea-orm = { workspace = true, features = [
     "runtime-tokio-rustls",
     "sqlx-postgres",
     "with-chrono",
 ] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-sha2 = "0.10"
-tokio = { version = "1.35", features = [
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+tokio = { workspace = true, features = [
     "macros",
     "rt-multi-thread",
     "sync",
     "tracing",
 ] }
-toml = "0.8.8"
-tower = { version = "0.4.13", features = ["util"] }
-tower-http = { version = "0.5.1", features = ["cors", "fs"] }
-tracing = { version = "0.1.40", features = ["async-await"] }
-tracing-subscriber = { version = "0.3.18", features = ["chrono", "serde"] }
-url = { version = "2.5.0", features = ["serde"] }
-validator = { version = "0.16", features = ["derive"] }
+toml = { workspace = true }
+tower = { workspace = true, features = ["util"] }
+tower-http = { workspace = true, features = ["cors", "fs"] }
+tracing = { workspace = true, features = ["async-await"] }
+tracing-subscriber = { workspace = true, features = ["chrono", "serde"] }
+url = { workspace = true, features = ["serde"] }
+validator = { workspace = true, features = ["derive"] }
