@@ -3,7 +3,7 @@ default:
 
 panel ARGS="":
     bun install
-    pnpm --filter "@triceratops/panel" build {{ARGS}}
+    bun run dev --scope="@triceratops/panel" {{ARGS}}
 
 webserver ARGS="start":
     cargo run --bin triceratops-server -- {{ARGS}}
