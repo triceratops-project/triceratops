@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name    = "triceratops-server-migration"
+name    = "triceratops-migration"
 publish = false
 version = "0.1.0"
 

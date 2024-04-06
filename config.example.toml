@@ -1,23 +1,24 @@
 version = 1
 
 [web-server]
-url = "https://panel.example.com/"
 bind-address = "127.0.0.1"
-port = 8080
+port         = 8080
+url          = "https://panel.example.com/"
 
 [debug]
 log-level = "info"
 
 [postgres]
-ip = "127.0.0.1"
-port = 5432
-schema = "triceratops"
-username = "triceratops_panel"
+ip       = "127.0.0.1"
 password = "CHANGEME"
+port     = 5432
+schema   = "triceratops"
+username = "triceratops_panel"
 
 [redis]
-ip = "127.0.0.1"
-port = 6379
+expiry = 300
+ip     = "127.0.0.1"
+port   = 6379
 
 [auth]
 jwt-secret = "CHANGEME"

@@ -1,10 +1,11 @@
 [workspace]
-default-members = ["crates/daemon", "crates/webserver"]
+default-members = ["crates/triceratops-daemon", "crates/triceratops-server"]
 members = [
-    "crates/daemon",
-    "crates/webserver",
-    "crates/webserver/entity",
-    "crates/webserver/migration",
+    "crates/triceratops-daemon",
+    "crates/triceratops-entity",
+    "crates/triceratops-migration",
+    "crates/triceratops-oauth",
+    "crates/triceratops-server",
 ]
 resolver = "2"
 
