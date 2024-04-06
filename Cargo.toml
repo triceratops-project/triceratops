@@ -1,7 +1,6 @@
 [workspace]
 default-members = ["crates/triceratops-daemon", "crates/triceratops-server"]
 members = [
-    "crates/triceratops-auth",
     "crates/triceratops-daemon",
     "crates/triceratops-entity",
     "crates/triceratops-migration",
@@ -35,6 +34,7 @@ sea-orm            = "0.12.15"
 serde              = "1.0.197"
 serde_json         = "1.0.115"
 sha2               = "0.10.8"
+thiserror          = "1.0.58"
 tokio              = "1.37.0"
 toml               = "0.8.8"
 tower              = "0.4.13"
