@@ -1,6 +1,7 @@
 [workspace]
 default-members = ["crates/triceratops-daemon", "crates/triceratops-server"]
 members = [
+    "crates/triceratops-auth",
     "crates/triceratops-daemon",
     "crates/triceratops-entity",
     "crates/triceratops-migration",
@@ -10,6 +11,9 @@ members = [
 resolver = "2"
 
 [workspace.dependencies]
+triceratops-entity    = { path = "./crates/triceratops-entity" }
+triceratops-migration = { path = "./crates/triceratops-migration" }
+
 argon2             = "0.5.3"
 axum               = "0.7.5"
 axum-extra         = "0.9.3"
@@ -26,7 +30,7 @@ pin-project        = "1.1.5"
 rand               = "0.8.5"
 rand_core          = "0.6.4"
 regex              = "1.10.4"
-reqwest            = "0.11.27"
+reqwest            = "0.12.3"
 sea-orm            = "0.12.15"
 serde              = "1.0.197"
 serde_json         = "1.0.115"

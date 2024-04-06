@@ -6,14 +6,14 @@ panel ARGS="":
     bun run dev --scope="@triceratops/panel" {{ARGS}}
 
 webserver ARGS="start":
-    cargo run --bin triceratops-server -- {{ARGS}}
+    cargo run -p triceratops-server -- {{ARGS}}
 
 daemon ARGS:
-    cargo run --bin triceratops-daemon -- {{ARGS}}
+    cargo run -p triceratops-daemon -- {{ARGS}}
 
 build:
     bun run build
-    cargo build --release --bin triceratops-server
+    cargo build --release -p triceratops-server
 
 bundle:
     just build
