@@ -16,6 +16,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha512};
 use std::net::Ipv4Addr;
+use tokio::task;
 use triceratops_entity::sessions as Sessions;
 use triceratops_entity::users as Users;
 use validator::Validate;
@@ -92,19 +93,25 @@ pub async fn handler(
         ));
     }
 
-    todo!("Spawn Blocking the Argon shite to avoid blocking executor thread");
-
     let password_salt = SaltString::generate(&mut OsRng);
-    let argon2 = Argon2::default();
+    let password_salt_clone = password_salt.clone();
 
-    let password_hash = argon2
-        .hash_password(body.password.as_bytes(), &password_salt)
-        .map_err(|_| {
-            (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"message": "Internal Server Error"})),
-            )
-        })?;
+    let password_hash =
+        task::spawn_blocking(move || -> Result<String, (StatusCode, Json<Value>)> {
+            let argon2 = Argon2::default();
+            let hashed_pass = argon2
+                .hash_password(body.password.as_bytes(), &password_salt_clone)
+                .map_err(|_| {
+                    (
+                        StatusCode::INTERNAL_SERVER_ERROR,
+                        Json(json!({"message": "Internal Server Error"})),
+                    )
+                })?;
+
+            Ok(hashed_pass.to_string())
+        })
+        .await
+        .unwrap();
 
     let utc_time = Utc::now();
 
@@ -112,7 +119,7 @@ pub async fn handler(
         id: Set(cuid2::create_id()),
         username: Set(body.username.trim().to_lowercase().to_owned()),
         email: Set(body.email.trim().to_lowercase().to_owned()),
-        password: Set(Some(password_hash.to_string())),
+        password: Set(Some(password_hash?.to_string())),
         first_name: Set(body.first_name),
         last_name: Set(body.last_name),
         last_login_at: Set(None),
