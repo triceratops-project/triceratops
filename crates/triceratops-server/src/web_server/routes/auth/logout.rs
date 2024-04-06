@@ -5,7 +5,7 @@ use axum::{
     Extension,
 };
 use sea_orm::EntityTrait;
-use triceratops_server_entity::sessions as Sessions;
+use triceratops_entity::sessions as Sessions;
 
 use crate::state::AppState;
 

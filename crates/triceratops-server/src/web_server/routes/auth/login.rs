@@ -12,8 +12,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sha2::{Digest, Sha512};
 use std::net::Ipv4Addr;
-use triceratops_server_entity::sessions as Sessions;
-use triceratops_server_entity::users as Users;
+use triceratops_entity::sessions as Sessions;
+use triceratops_entity::users as Users;
 
 use crate::state::AppState;
 

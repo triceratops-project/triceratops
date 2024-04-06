@@ -13,7 +13,7 @@ use axum_extra::{
 use chrono::Utc;
 use sea_orm::{EntityTrait, ModelTrait};
 use sha2::{Digest, Sha512};
-use triceratops_server_entity::{sessions as Sessions, users as Users};
+use triceratops_entity::{sessions as Sessions, users as Users};
 
 pub async fn auth(
     State(state): State<AppState>,

@@ -7,7 +7,7 @@ use axum::{
 };
 use sea_orm::EntityTrait;
 use serde_json::json;
-use triceratops_server_entity::servers as Servers;
+use triceratops_entity::servers as Servers;
 
 pub async fn handler(State(state): State<AppState>) -> Response {
     let servers = Servers::Entity::find().all(state.pool()).await;
