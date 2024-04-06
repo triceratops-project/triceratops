@@ -2,6 +2,7 @@ use crate::{config::TriceratopsConfig, state::InternalAppState};
 use axum::Router;
 use error_stack::{Context, Result, ResultExt};
 use std::{fmt, sync::Arc};
+use tower_http::cors::CorsLayer;
 
 mod api;
 mod auth;
@@ -28,7 +29,16 @@ pub async fn route(config: TriceratopsConfig) -> Result<Router, RouterError> {
 
     let app_state = Arc::new(app_state_raw);
 
-    let api_router = Router::new().nest("/api", api::route(&app_state));
+    let cord_origins = [
+        "http://localhost:3000".parse().unwrap(),
+        "http://localhost:5173".parse().unwrap(),
+    ];
+
+    let cors = CorsLayer::new()
+        .allow_private_network(true)
+        .allow_origin(cord_origins);
+
+    let api_router = Router::new().nest("/api", api::route(&app_state).layer(cors));
 
     let spa_router = spa::router();
 
