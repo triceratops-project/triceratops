@@ -10,6 +10,7 @@
     } from "@fortawesome/free-brands-svg-icons";
 
     import { faCircleDashed, faUserShield } from "@fortawesome/pro-solid-svg-icons";
+    import { env } from '$env/dynamic/public'
 
     import type { PageData } from "./$types";
 
@@ -26,7 +27,7 @@
     };
 
     async function oauthRedirect(provider: string) {
-        const res = await fetch(`/api/auth/oauth/${provider}`);
+        const res = await fetch(`${env.PUBLIC_API_URL}/api/auth/oauth/${provider}`);
 
         const resJson = await res.json();
 
