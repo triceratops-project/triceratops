@@ -29,12 +29,12 @@ pub async fn handler(State(state): State<AppState>) -> Json<ResponseBody> {
 
     let mut services: Vec<OAuthService> = vec![];
 
-    match oauth_config.custom() {
-        Some(_) => {
-            services.push(OAuthService::new("OAuth", "custom"));
-        }
-        None => {}
-    };
+    // match oauth_config.custom() {
+    //     Some(_) => {
+    //         services.push(OAuthService::new("OAuth", "custom"));
+    //     }
+    //     None => {}
+    // };
 
     match oauth_config.discord() {
         Some(_) => {
@@ -43,12 +43,12 @@ pub async fn handler(State(state): State<AppState>) -> Json<ResponseBody> {
         None => {}
     };
 
-    match oauth_config.google() {
-        Some(_) => {
-            services.push(OAuthService::new("Google", "google"));
-        }
-        None => {}
-    };
+    // match oauth_config.google() {
+    //     Some(_) => {
+    //         services.push(OAuthService::new("Google", "google"));
+    //     }
+    //     None => {}
+    // };
 
     match oauth_config.microsoft() {
         Some(_) => {
@@ -57,19 +57,19 @@ pub async fn handler(State(state): State<AppState>) -> Json<ResponseBody> {
         None => {}
     };
 
-    match oauth_config.okta() {
-        Some(_) => {
-            services.push(OAuthService::new("Okta", "okta"));
-        }
-        None => {}
-    };
+    // match oauth_config.okta() {
+    //     Some(_) => {
+    //         services.push(OAuthService::new("Okta", "okta"));
+    //     }
+    //     None => {}
+    // };
 
-    match oauth_config.whmcs() {
-        Some(_) => {
-            services.push(OAuthService::new("Whmcs", "whmcs"));
-        }
-        None => {}
-    };
+    // match oauth_config.whmcs() {
+    //     Some(_) => {
+    //         services.push(OAuthService::new("Whmcs", "whmcs"));
+    //     }
+    //     None => {}
+    // };
 
     Json(ResponseBody { services })
 }
