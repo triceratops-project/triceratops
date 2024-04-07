@@ -33,6 +33,8 @@
 
         window.location = resJson.url;
     }
+
+    export let form;
 </script>
 
 <div class="hidden xl:block">
@@ -69,9 +71,11 @@
             <div
                 class="flex flex-col justify-center text-center lg:px-8 px-6 pt-6"
             >
-                <!-- {isUnauthorized && <p className='text-start pl-2 text-red-600'>Invalid username or password.</p>} -->
-                <!-- {errorOccurred && <p className='text-start pl-2 text-red-600'>An unexpected error has occurred.</p>} -->
-                <form>
+                {#if form && !form.success}
+                    <p class='text-start pl-2 text-red-600'>{form.message}</p>
+                {/if}
+                 <!--{errorOccurred && <p className='text-start pl-2 text-red-600'>An unexpected error has occurred.</p>}-->
+                <form method="POST">
                     <input
                         name="username"
                         type="text"
