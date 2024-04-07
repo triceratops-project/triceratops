@@ -2,7 +2,7 @@ use error_stack::{Context, Report, Result, ResultExt};
 use serde::{Deserialize, Serialize};
 use std::{fmt, fs::File, io::Read};
 
-pub use auth::{oauth, AuthConfig, OAuthProvidersConfig, SamlConfig};
+pub use auth::{oauth, AuthConfig, OAuthProvidersConfig};
 pub use debug::DebugConfig;
 pub use postgres::PostgresConfig;
 pub use redis::RedisConfig;

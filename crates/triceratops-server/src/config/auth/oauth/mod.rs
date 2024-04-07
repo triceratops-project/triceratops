@@ -15,36 +15,36 @@ mod whmcs;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct OAuthProvidersConfig {
-    custom: Option<CustomOAuthProviderConfig>,
+    // custom: Option<CustomOAuthProviderConfig>,
     discord: Option<DiscordOAuthProviderConfig>,
-    google: Option<GoogleOAuthProviderConfig>,
+    // google: Option<GoogleOAuthProviderConfig>,
     microsoft: Option<MicrosoftOAuthProviderConfig>,
-    okta: Option<OktaOAuthProviderConfig>,
-    whmcs: Option<WhmcsOAuthProviderConfig>,
+    // okta: Option<OktaOAuthProviderConfig>,
+    // whmcs: Option<WhmcsOAuthProviderConfig>,
 }
 
 impl OAuthProvidersConfig {
-    pub fn custom(&self) -> &Option<CustomOAuthProviderConfig> {
-        &self.custom
-    }
+    // pub fn custom(&self) -> &Option<CustomOAuthProviderConfig> {
+    //     &self.custom
+    // }
 
     pub fn discord(&self) -> &Option<DiscordOAuthProviderConfig> {
         &self.discord
     }
 
-    pub fn google(&self) -> &Option<GoogleOAuthProviderConfig> {
-        &self.google
-    }
+    // pub fn google(&self) -> &Option<GoogleOAuthProviderConfig> {
+    //     &self.google
+    // }
 
     pub fn microsoft(&self) -> &Option<MicrosoftOAuthProviderConfig> {
         &self.microsoft
     }
 
-    pub fn okta(&self) -> &Option<OktaOAuthProviderConfig> {
-        &self.okta
-    }
+    // pub fn okta(&self) -> &Option<OktaOAuthProviderConfig> {
+    //     &self.okta
+    // }
 
-    pub fn whmcs(&self) -> &Option<WhmcsOAuthProviderConfig> {
-        &self.whmcs
-    }
+    // pub fn whmcs(&self) -> &Option<WhmcsOAuthProviderConfig> {
+    //     &self.whmcs
+    // }
 }

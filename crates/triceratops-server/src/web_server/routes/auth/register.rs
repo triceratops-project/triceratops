@@ -94,13 +94,12 @@ pub async fn handler(
     }
 
     let password_salt = SaltString::generate(&mut OsRng);
-    let password_salt_clone = password_salt.clone();
 
     let password_hash =
         task::spawn_blocking(move || -> Result<String, (StatusCode, Json<Value>)> {
             let argon2 = Argon2::default();
             let hashed_pass = argon2
-                .hash_password(body.password.as_bytes(), &password_salt_clone)
+                .hash_password(body.password.as_bytes(), &password_salt)
                 .map_err(|_| {
                     (
                         StatusCode::INTERNAL_SERVER_ERROR,

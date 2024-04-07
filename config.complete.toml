@@ -25,17 +25,7 @@ port     = 6379
 [auth]
 jwt-secret = "Password1"
 
-[auth.oauth.custom]
-client-id     = "Password1"
-client-secret = "Password1"
-discovery-url = "https://example.com/.well-known/openid-configuration"
-scopes        = ["email", "openid", "profile"]
-
 [auth.oauth.discord]
-client-id     = "Password1"
-client-secret = "Password1"
-
-[auth.oauth.google]
 client-id     = "Password1"
 client-secret = "Password1"
 
@@ -44,16 +34,3 @@ client-id     = "Password1"
 client-secret = "Password1"
 tenant-id     = "b32229b0-a29a-41ca-bf91-af2fe5182c5e"
 
-[auth.oauth.okta]
-client-id     = "Password1"
-client-secret = "Password1"
-sso-url       = "https://acmecorp.okta.com/"
-
-[auth.oauth.whmcs]
-client-id     = "Password1"
-client-secret = "Password1"
-
-[auth.saml]
-issuer              = "ACME Corp"
-signing-certificate = "super secure cert"
-sso_url             = "https://example.com/"
