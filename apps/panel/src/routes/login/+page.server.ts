@@ -5,7 +5,6 @@ import {redirect} from "@sveltejs/kit";
 export const load = (async ({ cookies }) => {
     const session = cookies.get('session');
     const user = cookies.get('user');
-    console.log(session)
 
     if (session && user) {
         return redirect(302, "/")
